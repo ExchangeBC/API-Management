@@ -1,0 +1,153 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Langley Cemeteries",
+        "description": "This API can be used to search for information about deceased persons and grave sites at cemeteries in Langley, B.C.  The searchable records are from the 1880's to 2008.",
+        "version": "1.0.0",
+        "license": {
+            "name": "Open Government License - British Columbia",
+            "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
+        },
+        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
+    },
+    "host": "data.tol.ca",
+    "basePath": "/resource",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/fqcy-a8xz.{outputFormat}": {
+            "get": {
+                "description": "Search for information about deceased persons and grave sites at cemeteries in Langley, B.C.",
+                "parameters": [
+                    {
+                        "name": "outputFormat",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "csv"
+                        ]
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "Limit search to the one deceased record with the given unique identifier",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "firstname",
+                        "in": "query",
+                        "description": "Limit search to persons with the given first name",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "middlename",
+                        "in": "query",
+                        "description": "Limit search to persons with the given middle name",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "lastname",
+                        "in": "query",
+                        "description": "Limit search to persons with the given last name",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "dateofbirth",
+                        "in": "query",
+                        "description": "Limit search to persons with the given birth date, specified in ISO8601 time format (e.g. 1953-10-22 or 1953-10-22T00:00:00.000). May be unknown. ('yearofbirth' is more likely to be known.)",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "dateofdeath",
+                        "in": "query",
+                        "description": "Limit search to persons with the given date of death, specified in ISO 8601 time format (e.g. 2002-03-19 or 2002-03-19T00:00:00.000). May be unknown. ('yearofdeath' is more likely to be known.)",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "yearofbirth",
+                        "in": "query",
+                        "description": "Limit search to persons with the given birth year, specified in YYYY format. Use this field instead of 'dateofbirth' if the exact date is unknown.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "yearofdeath",
+                        "in": "query",
+                        "description": "Limit search to persons with the given year of death, specified in YYYY format. Use this field instead of 'dateofdeath' if the exact date is unknown.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "cemeteryname",
+                        "in": "query",
+                        "description": "Limit search to the given cemetery",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "graveid",
+                        "in": "query",
+                        "description": "Limit search to the unique identifier of the grave. Duplicates indicate multiple burials at grave.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "$where",
+                        "in": "query",
+                        "description": "Accepts a SQL-like 'where' clause to define search criteria.  Any of the above parameters can be used in the where clause.  For example: cemeteryname = 'Langley Lawn' and dateofdeath > '2003-05-25'",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "$order",
+                        "in": "query",
+                        "description": "Accepts a SQL-like 'order by' clause to define the ordering of results.  For example: lastname ASC",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "$limit",
+                        "in": "query",
+                        "description": "The maximum number of search results to return.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "$offset",
+                        "in": "query",
+                        "description": "The index of the first result to return. (0 is the index of the first record.)",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "$$app_token",
+                        "in": "query",
+                        "description": "A Socrata application token",
+                        "type": "string",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of cemetery records"
+                    }
+                }
+            }
+        }
+    }
+}

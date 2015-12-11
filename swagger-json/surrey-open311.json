@@ -1,0 +1,190 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "City of Surrey Service Request API (Open311)",
+        "description": "This API provides real-time access to query service requests submitted to the City of Surrey Engineering and Parks departments based on the Open311 standard.",
+        "version": "1.7.0",
+        "license": {
+            "name": "Open Government License - British Columbia",
+            "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
+        },
+        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
+    },
+    "externalDocs": {
+        "description": "City of Surrey Service Request Web Site",
+        "url": "http://data.surrey.ca/dataset/service-requests"
+    },
+    "tags": [
+        {
+            "name": "services"
+        },
+        {
+            "name": "requests"
+        }
+    ],
+    "host": "cosmos.surrey.ca",
+    "basePath": "/api/open311",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/services.{output_format}": {
+            "get": {
+                "description": "Provides a list of acceptable Open311 service request types and their associated service codes.",
+                "tags": [
+                    "services"
+                ],
+                "parameters": [
+                    {
+                        "name": "output_format",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of service requests types"
+                    }
+                }
+            }
+        },
+        "/services/{service_code}.{output_format}": {
+            "get": {
+                "description": "Defines the attributes associated with a particular type of service request.",
+                "tags": [
+                    "services"
+                ],
+                "parameters": [
+                    {
+                        "name": "service_code",
+                        "in": "path",
+                        "description": "The unique identifier for the service request type (as given by the /services resource)",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "output_format",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An object describing the attributes of a given service request type"
+                    }
+                }
+            }
+        },
+        "/requests.{output_format}": {
+            "get": {
+                "description": "Lists the requests for a given service",
+                "tags": [
+                    "requests"
+                ],
+                "parameters": [
+                    {
+                        "name": "output_format",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    },
+                    {
+                        "name": "service_code",
+                        "in": "query",
+                        "description": "The unique identifier for the service request type.  For example: 142699",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "start_date",
+                        "in": "query",
+                        "description": "Earliest datetime  (in w3 format) to include in search.  For example: 2010-01-01T00:00:00Z",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "end_date",
+                        "in": "query",
+                        "description": "Latest datetime (in w3 format) to include in search.   For example: 2010-01-01T00:00:00Z",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "status",
+                        "in": "query",
+                        "description": "Filters the response to include only requests with the given status",
+                        "type": "string",
+                        "required": true,
+                        "enum": [
+                            "OPEN",
+                            "CLOSED"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of service requests"
+                    }
+                }
+            }
+        },
+        "/requests/{service_request_id}.{output_format}": {
+            "get": {
+                "description": "Provides information about a specific service request",
+                "tags": [
+                    "requests"
+                ],
+                "parameters": [
+                    {
+                        "name": "service_request_id",
+                        "in": "path",
+                        "description": "The unique identifier of the service request",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "output_format",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An object with information about a specific service request"
+                    }
+                }
+            }
+        }
+    }
+}

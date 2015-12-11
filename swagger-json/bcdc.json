@@ -1,0 +1,88 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "BC Data Catalog",
+        "description": "This API provides information about datasets in the BC Data Catalogue.",
+        "version": "3.0.0",
+        "license": {
+            "name": "Open Government License - British Columbia",
+            "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
+        },
+        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
+    },
+    "host": "apis.gov.bc.ca",
+    "basePath": "/bcdc/3",
+    "schemes": [
+        "http",
+        "https"
+    ],
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/package_list": {
+            "get": {
+                "description": "Returns the names of all indexed packages (datasets)",
+                "parameters": [
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "The offset (index) of the first package to return",
+                        "type": "integer",
+                        "default": 0
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "The number of packages to be returned per page",
+                        "type": "integer",
+                        "default": 100
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of packages"
+                    }
+                }
+            }
+        },
+        "/package_search": {
+            "get": {
+                "description": "Searches for packages (datasets) matching the specified query terms",
+                "parameters": [
+                    {
+                        "name": "q",
+                        "in": "query",
+                        "description": "A query string",
+                        "type": "string",
+                        "default": "\"Okanagan Lake\""
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "List of packages"
+                    }
+                }
+            }
+        },
+        "/package_show": {
+            "get": {
+                "description": "Returns metadata about the package (dataset) corresponding to the specified unique name",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "The package name",
+                        "type": "string",
+                        "default": "grizzly-bear-population-units"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A package metadata object"
+                    }
+                }
+            }
+        }
+    }
+}
