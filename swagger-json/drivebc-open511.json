@@ -3,10 +3,15 @@
     "info": {
         "title": "Drive BC Open511",
         "description": "This API is DriveBC's implementation of the Open511 specification.  It provides information about known road events (traffic accidents, construction, etc.) in British Columbia, Canada.",
-        "version": "1.0.0"
+        "version": "1.0.0",
+        "license": {
+            "name": "Open Government License - British Columbia",
+            "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
+        },
+        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
     },
-    "host": "uat-api.bcdevexchange.org",
-    "basePath": "/open511",
+    "host": "api.open511.gov.bc.ca",
+    "basePath": "/",
     "schemes": [
         "http",
         "https"
