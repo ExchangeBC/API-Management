@@ -2,7 +2,7 @@
 
 angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize'])
 .factory('ProgramListService', ['$resource', function($resource) {
-    return $resource('http://apis.gov.bc.ca/bcdc/3/action/group_show?id=bcdevexchange');
+    return $resource('http://sandbox.apis.gov.bc.ca/bcdc/3/action/group_show?id=bcdevexchange');
 }])
 .controller('ApiCtrl', ['$scope', 'usSpinnerService', '$q', 'ProgramListService', 
     function($scope, usSpinnerService, $q, ProgramListService) {
