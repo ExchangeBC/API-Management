@@ -10,7 +10,10 @@ angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize'])
     // Array of apis
     $scope.apis = []
     $scope.apisLoaded = false
+
+    $scope.predicate = '';
     $scope.predicateTitle = ''
+
 
     // Array of alerts
     $scope.alerts = []
