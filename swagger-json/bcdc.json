@@ -11,7 +11,7 @@
         "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
     },
     "host": "apis.gov.bc.ca",
-    "basePath": "/bcdc/3",
+    "basePath": "/bcdc/3/action",
     "schemes": [
         "http",
         "https"
