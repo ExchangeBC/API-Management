@@ -5,8 +5,10 @@
 <meta charset="UTF-8">
 <base href=".">
 <link rel="stylesheet" href="api-console.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
 <link rel="stylesheet" href="lib/angular-swagger-ui/css/swagger-ui.css"/>
-<link rel="stylesheet" href="lib/bootstrap/3.3.6/css/bootstrap.css"/>
+
 <script src="lib/angular/1.4.8/angular.js"></script>
 <script src="api-console.js"></script>
 <script src="lib/spin/spin.min.js"></script>
@@ -17,6 +19,7 @@
 </head>
 
 <body ng-app="ApiConsole">
+  <div ng-include="'header.html'"></div>
 
   <div ng-controller="ApiConsoleCtrl" class="container">
   <h3 ng-show="isLoading">loading ...</h3>
@@ -24,5 +27,8 @@
   <div swagger-ui url="swaggerUrl" loading="isLoading" parser="json" api-explorer="true" error-handler="myErrorHandler"></div>
   </div>
 
+  <br>
+  <br>
+  <div ng-include="'footer.html'"></div>
 </body>
 </html>

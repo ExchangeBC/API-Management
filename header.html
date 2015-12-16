@@ -1,0 +1,55 @@
+<!--
+Copyright 2015 Province of British Columbia
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and limitations under the License.
+-->
+<div class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="https://www.bcdevexchange.org/home" class="navbar-brand">BCDevExchange</a>
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-main">
+      <ul class='nav navbar-nav navbar-left'>
+        <li ng-show="config.resourcesPage" ng-cloak><a href="https://www.bcdevexchange.org/resources" ng-cloak>Resources</a>
+        </li>
+        <!--li ng-cloak><a href="https://www.bcdevexchange.org/projects" ng-cloak>Projects</a>
+        </li-->
+        <li ng-cloak><a href="https://www.bcdevexchange.org/programs" ng-cloak>Profiles</a>
+        </li>
+        <!--li ng-cloak><a href="https://www.bcdevexchange.org/people" ng-cloak>People</a>
+        </li-->
+        <!--li ng-cloak><a href="https://www.bcdevexchange.org/numbers" ng-cloak>Numbers</a>
+        </li-->
+        <li ng-cloak><a href="https://www.bcdevexchange.org/lab" ng-cloak>Labs</a>
+        </li>
+        <li ng-cloak><a href="https://www.bcdevexchange.org/blog" ng-cloak>Blog</a>
+        </li>
+        <li ng-show="config.communityMenu" class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Community <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li ng-cloak><a href="http://blog.data.gov.bc.ca/" target="_blank" ng-cloak>Blog</a>
+            </li>
+            <li ng-cloak><a href="https://www.linkedin.com/grp/home?gid=8316252" target="_blank" ng-cloak>Community</a>
+            </li>
+            <li ng-cloak><a href="https://www.bcdevexchange.org/signup" ng-cloak>Sign Up</a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</div>

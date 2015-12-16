@@ -1,7 +1,10 @@
 <html>
 <head>
 <title>API List</title>
-<link rel="stylesheet" href="api-list.css"/>
+<link rel="stylesheet" href="api-console.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+
 <script src="lib/angular/1.4.8/angular.js"></script>
 <script src="api-list.js"></script>
 <script src="lib/spin/spin.min.js"></script>
@@ -11,20 +14,17 @@
 </head>
 
 <body ng-app="ApiList" ng-controller="ApiCtrl">
-
+<div ng-include="'header.html'"></div>
 
 <div class="container">
-    <div class="row page-header">
-        <div class="col-lg-12">
-            <h1>API List</h1>
-        </div>
-    </div>
+    <h1>API List</h1>
     <div class="resource-list row">
         <div class="col-md-12">
             <ul class="resource-list list-unstyled table-bordered">
                 <span us-spinner="{radius:30, width:6, length: 18}" spinner-key="spinner-apis" spinner-start-active="true"></span>
 
                 <li class="resource" ng-repeat="api in filtered = (apis | filter:query | orderBy:predicate)">
+                  <div>
                     <div class="row">
                         <div class="col-md-9 col-lg-10">
                             <!-- Do we have a logo image to display?  If so, uncomment below -->
@@ -32,7 +32,7 @@
                             <h3 ng-bind-html="api.title"></h3>
                             <br>
                         </div>
-                        <div class="col-md-3 col-lg-2">
+                        <div class="col-md-3 col-lg-2" ng-show="{{api.url != null}}">
                             <a href="api-console.html?swaggerUrl={{api.url}}" class="btn btn-primary btn-block" ng-bind-html="'View'"></a>
                         </div>
                     </div>
@@ -47,6 +47,7 @@
                             </div-->
                         </div>
                     </div>
+                  </div>
                 </li>
                 <li ng-if="apis.length == 0 && apissLoaded" class="empty">
                     <div class="col-md-12">
@@ -63,6 +64,7 @@
     </div>
 </div>
 
+<div ng-include="'footer.html'"></div>
 
 </body>
 </html>
