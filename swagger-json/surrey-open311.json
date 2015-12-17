@@ -164,7 +164,7 @@
                         "in": "path",
                         "description": "The unique identifier of the service request",
                         "type": "string",
-                        "required": false
+                        "required": true
                     },
                     {
                         "name": "output_format",
