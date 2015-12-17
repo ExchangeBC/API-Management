@@ -3,7 +3,7 @@
     "info": {
         "title": "Geocoder",
         "description": "This API can be used to resolve the physical locations (i.e., latitude and longitude) and correct, standardized forms of civic and non-civic addresses in British Columbia.",
-        "version": "1.7.0",
+        "version": "2.0.0",
         "license": {
             "name": "Open Government License - British Columbia",
             "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
