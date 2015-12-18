@@ -11,8 +11,8 @@ angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize'])
     $scope.apis = []
     $scope.apisLoaded = false
 
-    $scope.predicate = '';
-    $scope.predicateTitle = ''
+    $scope.predicate = 'title';
+    $scope.predicateTitle = 'Title A-Z'
 
 
     // Array of alerts
