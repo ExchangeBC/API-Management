@@ -1,7 +1,7 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "BC Data Catalog",
+        "title": "BC Data Catalogue",
         "description": "This API provides information about datasets in the BC Data Catalogue.",
         "version": "3.0.0",
         "license": {
