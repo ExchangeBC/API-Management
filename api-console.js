@@ -1,6 +1,7 @@
 (function(){
 
-angular.module('ApiConsole', ['ngSanitize', 'swaggerUi'])
+
+angular.module('ApiConsole', ['ngSanitize'])
 
 .config(function($locationProvider) {
     // use the HTML5 History API
@@ -9,8 +10,10 @@ angular.module('ApiConsole', ['ngSanitize', 'swaggerUi'])
 
 // This service reads data from the query string into an object.
 .service('QueryStringService', function ($location) {
+
     this.getParams = function() {
         var qs = $location.search();
+        //$location.url($location.path()).replace();
         return qs;
     };
 })
@@ -26,16 +29,18 @@ angular.module('ApiConsole', ['ngSanitize', 'swaggerUi'])
       $scope.errorMsg = null;
       if (queryStringParams["swaggerUrl"] != null && queryStringParams["swaggerUrl"] != ""){
         $scope.swaggerUrl = queryStringParams["swaggerUrl"];
+
+        var swaggerUi = new SwaggerUi({
+          url:$scope.swaggerUrl,
+          dom_id:"swagger-ui-container"
+        });
+
+        swaggerUi.load();
       }
-      else{
-        $scope.errorMsg = "Parameter swaggerUrl not specified";
-        console.log(queryStringParams)
-      }
+
+
+
       
-      // error management
-      $scope.myErrorHandler = function(data, status){
-          $scope.errorMsg = "Unable to access swagger: '"+$scope.swaggerUrl+"'";
-      };
 }])
 
 })();
