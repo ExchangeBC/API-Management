@@ -1,10 +1,15 @@
 (function(){
 
+
 angular.module('ApiConsole', [])
 
-.controller('ApiConsoleCtrl', ['$scope', function($scope) {
+//.config(function($locationProvider) {
+//    // use the HTML5 History API
+//    $locationProvider.html5Mode(true);
+//})
 
-//do nothing
+.controller('ApiConsoleCtrl', ['$scope',
+    function($scope) {
       
 }])
 
