@@ -2,7 +2,7 @@
 
 angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize'])
 .factory('ProgramListService', ['$resource', function($resource) {
-    return $resource('//raw.githubusercontent.com/BCDevExchange/API-Management/master/listing.json');
+    return $resource('listing.json');
 }])
 .controller('ApiCtrl', ['$scope', 'usSpinnerService', '$q', 'ProgramListService', 
     function($scope, usSpinnerService, $q, ProgramListService) {
