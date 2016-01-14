@@ -4,13 +4,13 @@
       {
         "title": "BC Data Catalogue API",
         "url": "http://api.gov.bc.ca/data/a2a2130b-e853-49e8-9b30-1d0c735aa3d9/resource/0b9e7d31-91ff-4146-a473-106a3b301964/download/bcdc.json",
-        "notes": "The live published metadata content of the BC Data Catalogue is accessible through an application programming interface (API) available here http://catalogue.data.gov.bc.ca/api/ .\r\n\r\nDocumentation on the use of the API is available here http://docs.ckan.org/en/ckan-2.3/api/index.html .\r\n\r\nCatalogue content is also available via this record http://catalogue.data.gov.bc.ca/dataset/bc-data-catalogue-content",
+        "notes": "The live published metadata content of the BC Data Catalogue is accessible through an application programming interface (API)",
         "api_num": 0
       },
       {
         "title": "Open511-DriveBC API",
         "url": "http://api.gov.bc.ca/data/23a839e3-8fb4-4569-bb3d-c28a7621f687/resource/e60b09d8-8dea-40b1-a139-81632b3d4273/download/drivebc-open511.json",
-        "notes": "Provides real-time access to road event information for provincial highways, including road closures, planned work and extreme weather conditions delivered according to the Open511 standard.\r\n\r\nGeospatial Data are accessible via the Open511 API are licensed under the Open Government License - BC.\r\nThe API itself is licensed under the API Terms of Use (see documentation under More Information).\r\n\r\nFor more information about the API and guidelines, please see our [help documentation](\r\nhttp://api.open511.gov.bc.ca/help).\r\n\r\n",
+        "notes": "Provides real-time access to road event information for provincial highways, including road closures, planned work and extreme weather conditions delivered according to the Open511 standard.",
         "api_num": 1
       },
       {
