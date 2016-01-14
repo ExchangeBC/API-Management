@@ -16,19 +16,19 @@
       {
         "title": "BC Laws API",
         "url": "http://api.gov.bc.ca/data/6e815cf7-cb83-4655-9ad4-a926ae4e59f7/resource/3664d2d3-6dcb-4307-9652-a28332981ca3/download/bclaws.json",
-        "notes": "BC Laws is an electronic library providing free public access to the laws of British Columbia. BC Laws is hosted by the Queen’s Printer of British Columbia and published in partnership with the Ministry of Justice and the Law Clerk of the Legislative Assembly.\r\n\r\nBC Laws contains a comprehensive collection of BC legislation and related materials. It is available on the internet in two forms:\r\nFirst: The library is available as a web site in which users can browse and search the laws of British Columbia.\r\nSecond: The library is available as a portal to legislation in raw XML data format, accessible via the BC Laws API.\r\n\r\n This direct access to raw data is intended to enable third parties to build or add their own custom applications based on the structure of the data and all the associated search functionality inherent in that structure. The BC Laws website itself is an example of one such application of the BC Laws API.\r\n...\r\nThe BC Laws API is available according to the [Queen's Printer License – British Columbia] (http://www.bclaws.ca/standards/2014/QP-License_1.0.html).",
+        "notes": "BC Laws contains a comprehensive collection of BC legislation and related materials available via the BC Laws API.",
         "api_num": 2
       },
       {
         "title": "Physical Address Geocoding Web Service",
         "url": "http://api.gov.bc.ca/data/8f4a016f-14db-4def-8ef9-7c797de1cdd9/resource/1a46fd76-1316-4fab-9d99-a2286dcd2b7b/download/geocoder.json",
-        "notes": "The Physical Address Geocoder can be used to resolve physical locations (i.e., latitude and longitude) from place names and addresses in British Columbia. This RESTful web service, and corresponding, web application interface can also be used to correct and standardize civic and non-civic addresses in British Columbia. \r\n\r\nThe API is governed by [these](http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf) terms of service",
+        "notes": "The Physical Address Geocoder can be used to resolve physical locations and to standardize addresses in British Columbia.",
         "api_num": 3
       },
       {
         "title": "KamloopsGarbagePickup",
         "url": "https://raw.githubusercontent.com/BCDevExchange/API-Management/master/swagger-json/KamloopsGarbagePickup.json",
-        "notes": "The City of Kamloops is making publicly available data more easily accessible to developers, consultants and the general public through an Open Data portal at www.kamloops.ca/opendata. Currently snap-shot copies of data are available for download with work underway to introduce API access to live data. Our first collaboration is with community-based developers building a garbage day reminder service.",
+        "notes": "The City of Kamloops is making publicly available data more accessible through an API.",
         "api_num": 4
       },
       {
