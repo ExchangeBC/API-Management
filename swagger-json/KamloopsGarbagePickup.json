@@ -104,6 +104,9 @@
         "/schedules/query": {
             "get": {
                 "description": "Returns the garbage pickup dates for a given zone.",
+                "tags": [
+                    "resources"
+                    ],
                 "parameters": [
                     {
                         "name": "where",
