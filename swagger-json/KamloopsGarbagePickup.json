@@ -10,6 +10,11 @@
         },
         "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
     },
+    "tags": [
+        {
+            "name": "resources"
+        }
+        ],
     "host": "uat-api.bcdevexchange.org",
     "basePath": "/KamloopsGarbagePickup",
     "schemes": [
@@ -23,6 +28,9 @@
         "/1/query": {
             "get": {
                 "description": "Identifies the garbage pickup zone corresponding to a given geographic location (e.g. latitude and longitude).",
+                "tags": [
+                    "resources"
+                    ],
                 "parameters": [
                     {
                         "name": "geometry",
