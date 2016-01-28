@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>API List</title>
+<link rel="stylesheet" href="api-list.css"/>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
+<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+
+<script src="lib/jquery/1.11.3/jquery-1.11.3.min.js"></script>
+<script src="lib/angular/1.4.8/angular.js"></script>
+<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+<script src="api-mgr.js"></script>
+<script src="api-list.js"></script>
+<script src="api-console.js"></script>
+<script src="login/api-login.js"></script>
+<script src="lib/spin/spin.min.js"></script>
+<script src="lib/angular-spinner/angular-spinner.js"></script>
+<script src="lib/angular-resource/angular-resource.js"></script>
+<script src="lib/angular-sanitize/angular-sanitize.min.js"></script>
+</head>
+
+<body ng-app="ApiManager" ng-controller="ApiManagerCtrl">
+<div ng-include="'header.html'"></div>
+
+  <div class="container"><!-- inject content here --></div>
+
+<div ng-include="'footer.html'"></div>
+
+</body>
+</html>

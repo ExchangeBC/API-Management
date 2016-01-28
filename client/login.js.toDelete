@@ -1,0 +1,13 @@
+(function(){
+
+var loginModule = angular.module('Login', ['Account']);
+
+loginModule.controller('LoginCtrl', ['$scope', '$http', '$location', '$window', 'AccountService',
+  function($scope, $http, $location, $window, SessionService) {
+
+
+
+
+  }])
+
+})();
