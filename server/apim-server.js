@@ -15,7 +15,7 @@ app.use(session({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('../client'));
+app.use(express.static('client'));
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
@@ -26,7 +26,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GitHubStrategy({
     clientID: config.github.clientId,
     clientSecret: config.github.clientSecret,
-    callbackURL: config.host+":"+config.port+"/auth/github/callback"
+    callbackURL: config.callbackURL
   },
   function(accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
