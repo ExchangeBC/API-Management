@@ -1,10 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>API Console</title>
-
-
+<meta charset="UTF-8">
+<title>API Console</title>
 
 <link rel="stylesheet" href="api-console.css"/>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
@@ -12,18 +10,11 @@
 
 <script src="lib/angular/1.4.8/angular.js"></script>
 <script src="lib/angular/1.4.8/angular-cookies.min.js"></script>
+<script src="lib/angular/1.4.8/angular-sanitize.min.js"></script>
 <script src="api-console.js"></script>
 <script src="account.js"></script>
-<!--script src="lib/spin/spin.min.js"></script-->
-<!--script src="lib/angular-spinner/angular-spinner.js"></script-->
-<!--script src="lib/angular-resource/angular-resource.js"></script-->
-<!--script src="lib/angular-sanitize/angular-sanitize.min.js"></script-->
 
 <link href='lib/swagger-ui/css/screen.css' media='screen' rel='stylesheet' type='text/css'/>
-<!--link href='lib/swagger-ui/css/typography.css' media='screen' rel='stylesheet' type='text/css'/>
-<link href='lib/swagger-ui/css/reset.css' media='screen' rel='stylesheet' type='text/css'/>
-<link href='lib/swagger-ui/css/reset.css' media='print' rel='stylesheet' type='text/css'/>
-<link href='lib/swagger-ui/css/print.css' media='print' rel='stylesheet' type='text/css'/-->
 <script src='lib/swagger-ui/lib/jquery-1.8.0.min.js' type='text/javascript'></script>
 <script src='lib/swagger-ui/lib/jquery.slideto.min.js' type='text/javascript'></script>
 <script src='lib/swagger-ui/lib/jquery.wiggle.min.js' type='text/javascript'></script>
@@ -36,6 +27,7 @@
 <script src='lib/swagger-ui/lib/jsoneditor.min.js' type='text/javascript'></script>
 <script src='lib/swagger-ui/lib/marked.js' type='text/javascript'></script>
 <script src='lib/swagger-ui/lib/swagger-oauth.js' type='text/javascript'></script>
+<script src='lib/github/github.bundle.min.js' type='text/javascript'></script>
 
   <!-- Some basic translations -->
   <!-- <script src='lang/translator.js' type='text/javascript'></script> -->
@@ -43,43 +35,64 @@
   <!-- <script src='lang/en.js' type='text/javascript'></script> -->
 
   <script type="text/javascript">
+
     $(function () {
       var swaggerUrl = window.location.search.match(/swaggerUrl=([^&]+)/);
       if (swaggerUrl && swaggerUrl.length > 1) {
         swaggerUrl = decodeURIComponent(swaggerUrl[1]);
 
+        //set the swagger url in the controller
+        var controllerScope = angular.element($("#ApiConsoleCtrl")).scope(); 
+        controllerScope.setSwaggerUrl(swaggerUrl);
+
+        //also initialize the swagger-ui with the swagger url
         window.swaggerUi = new SwaggerUi({
           url: swaggerUrl,
           dom_id: "swagger-ui-container",
           docExpansion: "list"
         })
+
         window.swaggerUi.load();
 
       } 
 
-    });
+    }); 
   </script>
 </head>
 
-<body class="swagger-section" ng-app="ApiConsole" ng-controller="ApiConsoleCtrl">
-  <div ng-include="'header.html'"></div>
+<body id="ApiConsoleCtrl" class="swagger-section" ng-app="ApiConsole" ng-controller="ApiConsoleCtrl">
 
-  <div class="container" ng-cloak>
+  <table height="100%" width="100%">
+  <tr><td width="100%" height="10">
 
-    <ul class="nav nav-tabs" ng-show="isApiOwner()">
-      <li role="presentation" ng-class="{active: tab == 'api'}"><a href="#" ng-click="tab = 'api'">API</a></li>
-      <li role="presentation" ng-class="{active: tab == 'edit'}"><a href="#" ng-click="tab = 'edit'">Edit</a></li>
-    </ul>
+    <div ng-include="'header.html'"></div>
 
-    <div>
+    <div class="container" ng-cloak>
+      <ul class="nav nav-tabs" ng-show="canWriteSwagger">
+        <li role="presentation" ng-class="{active: tab == 'api'}"><a href="#" ng-click="tab = 'api'">API</a></li>
+        <li role="presentation" ng-class="{active: tab == 'edit'}"><a href="#" ng-click="tab = 'edit'">Edit</a></li>
+      </ul>
       <br/>
-      <div id="swagger-ui-container" class="swagger-ui-wrap" ng-show="tab == 'api'" ng-cloak></div>
-      <div id="swagger-editor-container" ng-show="tab == 'edit' && isApiOwner()" ng-cloak>editor here</div>
     </div>
-  </div>
 
-  <br>
-  <br>
-  <div ng-include="'footer.html'"></div>
+  </td></tr>
+  <tr><td valign="top" height="90%">
+
+    <div class="container" ng-cloak>
+      <div id="swagger-ui-container" class="swagger-ui-wrap" ng-show="tab == 'api'" ng-cloak></div>
+    </div>
+    <div id="swagger-editor-container" ng-show="tab == 'edit' && isEditorVisible()" ng-cloak  style="height: 100%; border-bottom: 1px solid #666666;">
+      <div id="editor-controls" class="pull-right">
+        <button ng-click="saveEditorContentsToGithub()">Save</button>
+      </div>
+      <iframe id="swagger-editor-iframe" style="border:none;position:relative;width:100%;height:100%;display:block;" height="100%" src="/swagger-editor"></iframe>
+    </div>
+
+  </td></tr>
+  <tr><td height="10">
+    <div ng-include="'footer.html'"></div>
+  </td></tr>
+  </table>
+  
 </body>
 </html>

@@ -31,36 +31,52 @@ passport.use(new GitHubStrategy({
   function(accessToken, refreshToken, profile, done) {
       process.nextTick(function () {
         
-        //the github profile is automatically added to the session, and will 
+        //the object returned by this function is automatically added to the session, and will 
         //be accessible as the req.user object.
-        //for example: req.user.id; req.user.username;
+        //for example: 
+        //  req.user.profile.id; 
+        //  req.user.profile.username; 
+        //  req.user.accessToken
 
-        //todo: store username and id by creating a new consumer in kong
-        // (if it doesn't already exist)
-        
-        //console.log(profile)
-        return done(null, profile);
+        return done(null, {profile: profile, accessToken: accessToken});
       });
     }
 ));
 
+// Functions
+// ----------------------------------------------------------------------------
+
+function isLoggedIn(req, res) {
+  if (req.user)
+    return true;
+  return false;
+}
+
+
 // Login and Logout
 // ----------------------------------------------------------------------------
 
-app.get('/auth/github',
-  passport.authenticate('github', { scope: ["user"] }));
+app.get('/auth/github', function(req, res, next) {
 
-app.get('/auth/github/callback', 
-  passport.authenticate('github', { failureRedirect: 'login-failed' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect(req.headers.referer); 
-  });
+  //set a session variable that holds the user's previous URL (so we
+  //can redirect back after login)
+  req.session.redirect_to = req.headers.referer;
+  passport.authenticate('github', { scope: ["user","public_repo"] })(req, res, next);
+});
+
+app.get('/auth/github/callback', function(req, res, next){
+  passport.authenticate('github', { 
+    failureRedirect: 'login-failed', 
+    successRedirect: '/api-list.html'
+  })(req, res, next);
+});
 
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect(req.headers.referer);
-  //res.redirect('/api-list.html');
+  if (req.headers.referer)
+    res.redirect(req.headers.referer);
+  else
+    res.redirect('/api-list.html');
 });
 
 // API to support the client
@@ -72,10 +88,12 @@ an empty object if no user is logged in
 */
 app.get('/api/account', function(req, res){
   var json = null;
-  if (req.user) {
+  if (isLoggedIn(req, res)) {
+    //console.log("user:"+JSON.stringify(req.user));
     json = JSON.stringify({ 
-      //id: req.user.id,
-      username: req.user.username
+      token: req.user.accessToken,
+      id: parseInt(req.user.profile.id),      
+      username: req.user.profile.username,      
     });    
   }
   else {
