@@ -52,18 +52,11 @@ function isLoggedIn(req, res) {
   return false;
 }
 
-function goTo(res, url) {
-  res.redirect(url);
-}
 
 // Login and Logout
 // ----------------------------------------------------------------------------
 
 app.get('/auth/github', function(req, res, next) {
-
-  //set a session variable that holds the user's previous URL (so we
-  //can redirect back after login)
-  req.session.redirect_to = req.headers.referer;
   passport.authenticate('github', { scope: ["user","repo"] })(req, res, next);
 });
 
@@ -76,12 +69,12 @@ app.get('/auth/github/callback', function(req, res, next){
 
 app.get('/logout', function(req, res){
   req.logout();
-  req.user = null;
+  //console.log("logged out")
   if (req.headers.referer) {
-    goTo(res, req.headers.referer);
+    res.redirect(req.headers.referer);
   }
   else
-    goTo(res, '/api-list.html');
+    res.redirect('/api-list.html');
 });
 
 // API to support the client
@@ -93,6 +86,7 @@ an empty object if no user is logged in
 */
 app.get('/api/account', function(req, res){
   var json = null;
+  //console.log("isLoggedIn:"+isLoggedIn(req, res));
   if (isLoggedIn(req, res)) {
     json = JSON.stringify({ 
       token: req.user.accessToken,
