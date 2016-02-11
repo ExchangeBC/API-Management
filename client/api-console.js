@@ -200,7 +200,11 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
       $scope.swaggerContent, 
       commitMsg, 
       options, 
-      function(err) {alert("unable to save: "+JSON.stringify(err));}
+      function(err) {
+        if (err != null){
+          alert("unable to save: "+err)
+        }
+      }
     );
     
     
