@@ -64,7 +64,7 @@ app.get('/auth/github', function(req, res, next) {
   //set a session variable that holds the user's previous URL (so we
   //can redirect back after login)
   req.session.redirect_to = req.headers.referer;
-  passport.authenticate('github', { scope: ["user","public_repo"] })(req, res, next);
+  passport.authenticate('github', { scope: ["user","repo"] })(req, res, next);
 });
 
 app.get('/auth/github/callback', function(req, res, next){
