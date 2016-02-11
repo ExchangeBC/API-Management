@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "City of Surrey Service Request API (Open311).",
-        "description": "This API provides real-time access to query service requests submitted to the City of Surrey Engineering and Parks departments based on the Open311 standard",
+        "description": "This API provides real-time access to query service requests submitted to the City of Surrey Engineering and Parks departments based on the Open311 standard.",
         "version": "2",
         "license": {
             "name": "Open Government License - British Columbia",
