@@ -52,6 +52,9 @@ function isLoggedIn(req, res) {
   return false;
 }
 
+function goTo(res, url) {
+  res.redirect(url);
+}
 
 // Login and Logout
 // ----------------------------------------------------------------------------
@@ -73,10 +76,12 @@ app.get('/auth/github/callback', function(req, res, next){
 
 app.get('/logout', function(req, res){
   req.logout();
-  if (req.headers.referer)
-    res.redirect(req.headers.referer);
+  req.user = null;
+  if (req.headers.referer) {
+    goTo(res, req.headers.referer);
+  }
   else
-    res.redirect('/api-list.html');
+    goTo(res, '/api-list.html');
 });
 
 // API to support the client
@@ -99,6 +104,12 @@ app.get('/api/account', function(req, res){
   else {
     json = JSON.stringify({})
   }
+  
+  //headers to prevent browsers from caching the page
+  res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", 0);
+
   res.end(json);
 });
 

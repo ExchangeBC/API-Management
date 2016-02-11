@@ -19,7 +19,7 @@ angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize', 'Accoun
     $scope.alerts = []
 
     //initialize
-    AccountService.getAccountFromSession().then(function(result) {
+    AccountService.getAccountFromSession().then(function(result) {      
       $scope.account = result;
     });
 
