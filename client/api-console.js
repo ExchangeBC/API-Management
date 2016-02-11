@@ -42,6 +42,7 @@ apiConsole.factory('DownloadService', ['$http', '$q', function($http, $q){
 apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadService', function($scope, AccountService, DownloadService) {
 
   $scope.tab = ['api', 'edit'][0];
+  $scope.view = ['list', 'console'][1];
   $scope.swaggerUrl = null;
   $scope.swaggerEditorUrl = null;
   $scope.swaggerContent = null;
@@ -202,7 +203,7 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
       options, 
       function(err) {
         if (err != null){
-          alert("unable to save: "+err)
+          alert("unable to save: "+JSON.stringify(err));
         }
       }
     );

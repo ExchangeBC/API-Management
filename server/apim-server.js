@@ -94,7 +94,6 @@ an empty object if no user is logged in
 app.get('/api/account', function(req, res){
   var json = null;
   if (isLoggedIn(req, res)) {
-    //console.log("user:"+JSON.stringify(req.user));
     json = JSON.stringify({ 
       token: req.user.accessToken,
       id: parseInt(req.user.profile.id),      

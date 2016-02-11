@@ -82,14 +82,26 @@
       <div id="swagger-ui-container" class="swagger-ui-wrap" ng-show="tab == 'api'" ng-cloak></div>
     </div>
     <div id="swagger-editor-container" ng-show="tab == 'edit' && isEditorVisible()" ng-cloak  style="height: 100%; border-bottom: 1px solid #666666;">
-      <div id="editor-controls" class="pull-right">
-        <button ng-click="saveEditorContentsToGithub()">Save</button>
-      </div>
-      <iframe id="swagger-editor-iframe" style="border:none;position:relative;width:100%;height:100%;display:block;" height="100%" src="/swagger-editor"></iframe>
+
+      <table height="100%" width="100%">
+      <tr height="10">
+      <td>
+        <div class="container">        
+          <button class="pull-right" ng-click="saveEditorContentsToGithub()">Save</button>
+        </div>
+        <br/>
+      </td>
+      </tr>
+      <tr>
+      <td>      
+        <iframe id="swagger-editor-iframe" style="border:none;position:relative;width:100%;height:100%;display:block;" height="100%" src="/swagger-editor"></iframe>
+      </td>
+      </tr>
+      </table>
     </div>
 
   </td></tr>
-  <tr><td height="10">
+  <tr><td>
     <div ng-include="'footer.html'"></div>
   </td></tr>
   </table>
