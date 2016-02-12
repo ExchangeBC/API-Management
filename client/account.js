@@ -6,23 +6,31 @@ accountModule.factory('AccountService', ['$q', '$http', function($q, $http){
 
   return {
 
-      //returns a promise with
-      getAccountFromSession: function() {
-        var maxResults = 1;
-        return $http.get("./api/account")
-          .then(function(response) {
-            if (typeof response.data === 'object' && response.data.username) {
-              return response.data;
+    //returns a promise
+    getAccountFromSession: function(url) {
+      return $http({
+        url: "./api/account",
+        method: 'GET',
+        headers: {
+        "Cache-control": "no-cache"
+        },
+        transformResponse: null,
+      })
+        .then(function(response) {
+            jsonData = JSON.parse(response.data)
+            if (jsonData.username) {
+              return jsonData;
             }
 
             // invalid response, or no matches
             return $q.reject(response.data);
 
-          }, function(response) {
-            // something went wrong
-            return $q.reject(response.data);
-          });
-      },
+        }, function(response) {
+          // something went wrong
+          return $q.reject(response.data);
+        });
+    },
+
   };
  
 }]);

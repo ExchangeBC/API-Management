@@ -15,6 +15,9 @@ apiConsole.factory('DownloadService', ['$http', '$q', function($http, $q){
       return $http({
         url: url,
         method: 'GET',
+        headers: {
+        //"Cache-control": "no-cache"
+        },
         transformResponse: null,
       })
         .then(function(response) {
@@ -77,7 +80,7 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
 
   //precondition: $scope.swaggerUrl is set
   init = function() {
-
+  
     //get account info
     AccountService.getAccountFromSession().then(function(result) {
 
