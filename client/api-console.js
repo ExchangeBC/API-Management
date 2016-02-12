@@ -96,7 +96,8 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
 
       //configure github api with the authenticated user's access token
       githubApi = new Github({
-         token: $scope.account.token
+         token: $scope.account.token,
+         auth: "oauth"
       });
 
       repoApi = githubApi.getRepo(swaggerGithubData.owner, swaggerGithubData.repo);
