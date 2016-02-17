@@ -192,13 +192,11 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
 
   $scope.saveEnd = function(){
     $scope.saveInProgress = false;
-    console.log($scope.saveInProgress);
     usSpinnerService.stop('spinner-save')
   }
 
   $scope.saveEditorContentsToGithub = function() {
     $scope.saveBegin();
-    console.log("saving swagger to github");
     $scope.setSwaggerContentFromEditor();
 
     var options = {
