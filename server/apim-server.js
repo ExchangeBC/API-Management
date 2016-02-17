@@ -99,9 +99,9 @@ app.get('/api/account', function(req, res){
   }
   
   //headers to prevent browsers from caching the page
-  //res.set("Cache-Control", "no-cache, no-store, must-revalidate");
-  //res.set("Pragma", "no-cache");
-  //res.set("Expires", 0);
+  res.set("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.set("Pragma", "no-cache");
+  res.set("Expires", 0);
 
   res.end(json);
 });
