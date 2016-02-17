@@ -1,7 +1,7 @@
 (function(){
 
 
-var apiConsole = angular.module('ApiConsole', ['Account', 'ngSanitize']);
+var apiConsole = angular.module('ApiConsole', ['angularSpinner', 'Account', 'ngSanitize']);
 
 // Services
 // --------------------------------------------------------------------------
@@ -42,7 +42,7 @@ apiConsole.factory('DownloadService', ['$http', '$q', function($http, $q){
 // Controllers
 // --------------------------------------------------------------------------
 
-apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadService', function($scope, AccountService, DownloadService) {
+apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadService', 'usSpinnerService', function($scope, AccountService, DownloadService, usSpinnerService) {
 
   $scope.tab = ['api', 'edit'][0];
   $scope.view = ['list', 'console'][1];
@@ -50,6 +50,8 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
   $scope.swaggerEditorUrl = null;
   $scope.swaggerContent = null;
   $scope.canWriteSwagger = false;
+  $scope.saveFailed = false;
+  $scope.saveInProgress = false;
   
   var githubApi = null;
   var repoApi = null;
@@ -148,7 +150,7 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
     window.location = "./auth/github"
   }
 
-  $scope.isEditorVisible = function() {
+  $scope.isSaveEnabled = function() {
     if ($scope.tab != 'edit' || !$scope.canWriteSwagger) {
       return false;
     }
@@ -183,12 +185,24 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
     }]);
   }
 
+  $scope.saveBegin = function(){
+    $scope.saveInProgress = true;
+    usSpinnerService.spin('spinner-save');
+  }
+
+  $scope.saveEnd = function(){
+    $scope.saveInProgress = false;
+    console.log($scope.saveInProgress);
+    usSpinnerService.stop('spinner-save')
+  }
+
   $scope.saveEditorContentsToGithub = function() {
+    $scope.saveBegin();
     console.log("saving swagger to github");
     $scope.setSwaggerContentFromEditor();
 
     var options = {
-      author: {name: 'Author Name', email: 'author@example.com'},
+      //author: {name: 'Author Name', email: 'author@example.com'},
       //committer: {name: 'Committer Name', email: 'committer@example.com'},
       encode: true // Whether to base64 encode the file. (default: true)
     }
@@ -206,17 +220,17 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
       commitMsg, 
       options, 
       function(err) {
-        if (err != null){
-          alert("unable to save: "+JSON.stringify(err));
-        }
+        $scope.$apply(function(){
+          $scope.saveEnd();
+          $scope.saveFailed = (err != null);
+        });
       }
     );
-    
     
     /*
     //this works.  
     repoApiTest = githubApi.getRepo("banders", "banders");
-    repoApiTest.write('master', 'test.json', '{version:1.0}', 'set version', options, function(err) {alert("error saving: "+JSON.stringify(err));});
+    repoApiTest.write('master', 'test.json', $scope.swaggerContent, 'test', options, function(err) {if (err != null) {alert("error saving: "+JSON.stringify(err));}});
     */
   }
 

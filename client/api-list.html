@@ -20,7 +20,30 @@
 </head>
 
 <body ng-app="ApiList" ng-controller="ApiCtrl">
-<div ng-include="'header.html'"></div>
+
+<!-- header -->
+<div class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="https://www.bcdevexchange.org/home" class="navbar-brand">BCDevExchange</a>
+    
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-main">
+      <ul class='nav navbar-nav navbar-left'>
+        <!--li ng-show="config.resourcesPage" ng-cloak><a href="https://www.bcdevexchange.org/resources" ng-cloak>Resources</a>
+        </li-->  
+      </ul>
+      
+      <ul class='nav navbar-nav navbar-right'>
+        <li ng-hide="account.username"><a href="#" ng-click="login()">Log In</a></li>
+        <li ng-show="account.username"><a href="#" ng-click="logout()">Log Out ({{account.username}})</a></li>
+      </ul>
+
+    </div>    
+  </div>
+</div>
+<!-- end header -->
+
 
 <div class="container">
     <h1>API List</h1>

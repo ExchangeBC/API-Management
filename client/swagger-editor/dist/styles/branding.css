@@ -1,3 +1,7 @@
 .status-bar {
-    display: none !important;
+  display: none !important;
+}
+
+.logo {
+  display: none !important;
 }

@@ -41,7 +41,9 @@ See the License for the specific language governing permissions and limitations 
         <!--li ng-cloak><a href="https://www.bcdevexchange.org/lab" ng-cloak>Labs</a>
         </li-->
         <!--li ng-cloak><a href="https://www.bcdevexchange.org/blog" ng-cloak>Blog</a>
-        </li-->        
+        </li-->      
+        <li ng-cloak ng-show="view == 'console' && account.username" ng-class="{active: tab == 'api'}"><a href="#" ng-click="tab = 'api'">API</a></li>            
+        <li ng-cloak ng-show="view == 'console' && account.username" ng-class="{active: tab == 'edit'}"><a href="#" ng-click="tab = 'edit'">Edit</a></li>            
         <li ng-show="config.communityMenu" class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Community <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
