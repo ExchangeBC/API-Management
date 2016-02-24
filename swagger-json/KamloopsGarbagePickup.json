@@ -2,7 +2,7 @@
     "swagger": "2.0",
     "info": {
         "title": "Kamloops Garbage Pickup ArcGIS Rest API",
-        "description": "This API provides information about garbage pickup schedules in the city of Kamloops..",
+        "description": "This API provides information about garbage pickup schedules in the city of Kamloops.",
         "version": "1.0.0",
         "license": {
             "name": "Open Government License - British Columbia",
