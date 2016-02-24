@@ -8,13 +8,13 @@ var app = express();
 // Init
 // ----------------------------------------------------------------------------
 
+app.use(express.static('client'));
 app.use(session({
   resave: true,
   saveUninitialized: true,
   secret: '4rfg5edggs',
 }))
 app.use(passport.initialize());
-app.use(express.static('client'));
 app.use(passport.session());
 passport.serializeUser(function(user, done) {
   done(null, user);
