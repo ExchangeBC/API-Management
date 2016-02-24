@@ -11,7 +11,7 @@ var app = express();
 app.use(express.static('client'));
 app.use(session({
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   secret: '4rfg5edggs',
 }))
 app.use(passport.initialize());
