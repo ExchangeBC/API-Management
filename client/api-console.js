@@ -210,8 +210,8 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
     //repoApi.show(function(err, repo) {console.log(repo)});
 
     
-    //this doesn't work. causes a PUT 404 error, which I believe is because the 'bcgov' organization hasn't yet granted
-    //this application ('apim-app') access to write.  I have requested access and am awaiting a response.
+    //note: this call causes an HTTP 404 error if the user doesn't have permission to write to the repo OR
+    //if the application doesn't have access to write to the repo
     repoApi.write(swaggerGithubData.branch, 
       swaggerGithubData.path, 
       $scope.swaggerContent, 

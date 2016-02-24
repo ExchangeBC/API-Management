@@ -14,8 +14,8 @@ app.use(session({
   secret: '4rfg5edggs',
 }))
 app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static('client'));
+app.use(passport.session());
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
