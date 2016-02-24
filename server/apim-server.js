@@ -10,14 +10,12 @@ var app = express();
 
 app.use(express.static('client'));
 app.use(session({
-  resave: true,
+  resave: false,
   saveUninitialized: true,
   secret: '4rfg5edggs',
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-express.session.ignore.push('/api-list.html');
-express.session.ignore.push('/api-console.html');
 passport.serializeUser(function(user, done) {
   done(null, user);
 });
