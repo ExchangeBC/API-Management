@@ -103,6 +103,10 @@ app.get('/api/account', function(req, res){
   res.set("Pragma", "no-cache");
   res.set("Expires", 0);
 
+  //this handler only reads from the session (it doesn't write).  to ensure the session
+  //isn't re-saved, set it to null
+  req.session = null;
+
   res.end(json);
 });
 
