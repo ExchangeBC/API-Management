@@ -175,10 +175,6 @@ apiConsole.controller('ApiConsoleCtrl',
     return response;
   }
 
-  $scope.getSwaggerUrl = function() {
-    return ApiService.getSelectedSwaggerUrl();
-  }
-
   $scope.getTab = function() {
     return ConsoleService.getTab();
   }
@@ -187,13 +183,13 @@ apiConsole.controller('ApiConsoleCtrl',
     ConsoleService.setTab(tab);
   }
 
-  //precondition: $scope.getSwaggerUrl returns not null
+  //precondition: ApiService.getSelectedSwaggerUrl() returns not null
   refresh = function() {
 
     console.log("refresh");
 
     //if a swagger url hasn't been selected, redirect user to the api list
-    if ($scope.getSwaggerUrl() == null) {
+    if (ApiService.getSelectedSwaggerUrl() == null) {
       $location.path('/list');
       console.log("swagger url not set.  redirecting");
       return;
@@ -206,8 +202,7 @@ apiConsole.controller('ApiConsoleCtrl',
       
       //determine which github repo (if any) the swagger file is from
       try{
-        //console.log("parsing github info from swagger url: "+$scope.getSwaggerUrl());
-        var swaggerGithubData = parseGithubInfoFromDownloadUrl($scope.getSwaggerUrl());
+        var swaggerGithubData = parseGithubInfoFromDownloadUrl(ApiService.getSelectedSwaggerUrl());
         ConsoleService.setSwaggerGithubData(swaggerGithubData);
       } catch (e) {
         console.log("swagger file not from github")
@@ -246,12 +241,12 @@ apiConsole.controller('ApiConsoleCtrl',
       }
 
       //download the swagger file
-      DownloadService.getUrl($scope.getSwaggerUrl()).then(function(data) {
+      DownloadService.getUrl(ApiService.getSelectedSwaggerUrl()).then(function(data) {
         ConsoleService.setSwaggerContent(data);
         $scope.initEditor();
       })
 
-      document.getElementById('swagger-ui-iframe').src = "swagger-ui.html?swaggerUrl="+$scope.getSwaggerUrl()+"?"+(new Date().getTime());
+      document.getElementById('swagger-ui-iframe').src = "swagger-ui.html?swaggerUrl="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
 
     });
    
