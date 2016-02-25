@@ -35,6 +35,7 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
     setSwaggerContent(content) {
       var changed = (this.swaggerContent != content)
       this.swaggerContent = content;
+      console.log("set swagger content:"+content.substr(0,100)+"...");
       if (changed)
         $rootScope.$emit('swagger-content-changed');
     },
@@ -251,6 +252,12 @@ apiConsole.controller('ApiConsoleCtrl',
       //reset the swagger-ui
       document.getElementById('swagger-ui-iframe').src = "swagger-ui.html?swaggerUrl="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
 
+      //reset the swagger-editor
+      var editorUrl =  "/swagger-editor/dist/#/?import="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
+      console.log(editorUrl);
+      document.getElementById('swagger-editor-iframe').src = editorUrl;
+
+
     });
    
   }
@@ -278,6 +285,8 @@ apiConsole.controller('ApiConsoleCtrl',
   }
 
   $scope.initEditor = function() {
+    console.log("init editor: do nothing");
+    return;
     var isInitialized = false; //$scope.swaggerContent != null;
 
     if (isInitialized) {
@@ -286,6 +295,7 @@ apiConsole.controller('ApiConsoleCtrl',
 
     $scope.injectEditor(["$rootScope",function($rootScope){
       $rootScope.editorValue = ConsoleService.getSwaggerContent();
+      console.log("updated editor content: "+$rootScope.editorValue.substr(0,100)+"...");
     }]);
   }
 
