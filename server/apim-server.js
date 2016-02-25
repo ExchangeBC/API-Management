@@ -62,19 +62,18 @@ app.get('/auth/github', function(req, res, next) {
 
 app.get('/auth/github/callback', function(req, res, next){
   passport.authenticate('github', { 
-    failureRedirect: 'login-failed', 
-    successRedirect: '/api-list.html'
+    failureRedirect: '/', 
+    successRedirect: '/'
   })(req, res, next);
 });
 
 app.get('/logout', function(req, res){
   req.logout();
-  console.log("logged out")
   if (req.headers.referer) {
     res.redirect(req.headers.referer);
   }
   else
-    res.redirect('/api-list.html');
+    res.redirect('/');
 });
 
 // API to support the client
@@ -86,7 +85,6 @@ an empty object if no user is logged in
 */
 app.get('/api/account', function(req, res){
   var json = null;
-  console.log("isLoggedIn:"+isLoggedIn(req, res));
   if (isLoggedIn(req, res)) {
     json = JSON.stringify({ 
       token: req.user.accessToken,

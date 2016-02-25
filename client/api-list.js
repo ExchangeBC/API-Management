@@ -4,8 +4,15 @@ angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize', 'Accoun
 .factory('ProgramListService', ['$resource', function($resource) {
     return $resource('listing.json');
 }])
-.controller('ApiCtrl', ['$scope', 'usSpinnerService', '$q', 'ProgramListService', 'AccountService',
-    function($scope, usSpinnerService, $q, ProgramListService, AccountService) {
+.controller('ApiListCtrl', 
+  ['$scope', 
+  '$location',
+  'usSpinnerService', 
+  '$q', 
+  'ProgramListService', 
+  'AccountService',
+  'ApiService',
+    function($scope, $location, usSpinnerService, $q, ProgramListService, AccountService, ApiService) {
 
     // Array of apis
     $scope.apis = []
@@ -14,12 +21,11 @@ angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize', 'Accoun
     $scope.predicate = 'title';
     $scope.predicateTitle = 'Title A-Z'
 
-
     // Array of alerts
     $scope.alerts = []
 
     //initialize
-    AccountService.getAccountFromSession().then(function(result) {      
+    AccountService.getAccount().then(function(result) {      
       $scope.account = result;
     });
 
@@ -53,6 +59,11 @@ angular.module('ApiList', ['angularSpinner', 'ngResource', 'ngSanitize', 'Accoun
             usSpinnerService.stop('spinner-apis')
         }
     )
+
+    $scope.goToApi = function(swaggerUrl) {
+      ApiService.setSelectedSwaggerUrl(swaggerUrl);
+      $location.path("/console");
+    }
 
     ProgramListService.get({}, function(data) {
         $scope.apis = data.result.packages

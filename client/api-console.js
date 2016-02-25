@@ -6,12 +6,102 @@ var apiConsole = angular.module('ApiConsole', ['angularSpinner', 'Account', 'ngS
 // Services
 // --------------------------------------------------------------------------
 
+//stores data to be shared across all instances of ApiConsoleCtrl
+apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
+  return {
+    tab: ['api', 'edit'][0],
+    swaggerEditable: false,
+    swaggerContent: "",
+    githubRepo: null,
+    swaggerGithubData: null,
+    saveInProgress: false,
+    saveFailed: false,
+
+    getTab: function() {
+      return this.tab;
+    },
+    setTab: function(tab) {
+      this.tab = tab;
+      $rootScope.$emit('tab-changed', this.tab);
+    },
+
+    setSwaggerEditable(editable) {
+      this.swaggerEditable = editable;
+    },
+    isSwaggerEditable() {
+      return this.swaggerEditable;
+    },
+
+    setSwaggerContent(content) {
+      var changed = (this.swaggerContent != content)
+      this.swaggerContent = content;
+      if (changed)
+        $rootScope.$emit('swagger-content-changed');
+    },
+    getSwaggerContent() {
+      return this.swaggerContent;
+    },
+
+    setGithubRepo(repo) {
+      this.githubRepo = repo;
+    },
+    getGithubRepo() {
+      return this.githubRepo;
+    },
+
+    setSwaggerGithubData(data) {
+      this.swaggerGithubData = data;
+    },
+    getSwaggerGithubData() {
+      return this.swaggerGithubData;
+    }, 
+
+    setSaveInProgress(status) {
+      this.saveInProgress = status;
+    },
+    getSaveInProgress() {
+      return this.saveInProgress;
+    },
+
+    setSaveFailed(status) {
+      this.saveFailed = status;
+    },
+    getSaveFailed() {
+      return this.saveFailed;
+    },
+
+    isSaveEnabled() {
+      if (this.getTab() != 'edit' || !this.isSwaggerEditable()) {
+        return false;
+      }
+
+      return true;
+    },
+
+    triggerSave() {
+      this.setSaveInProgress(true);
+      $rootScope.$emit('save-triggered');
+    }
+
+
+
+  };
+ 
+}]);
+
 apiConsole.factory('DownloadService', ['$http', '$q', function($http, $q){
   return {
 
     //returns a promise
     getUrl: function(url) {
       
+      var separator = "?";
+      if (url.indexOf(separator) != -1) {
+        separator = "&"
+      }
+      url += separator + "" +(new Date().getTime());
+      //console.log(url);
+
       return $http({
         url: url,
         method: 'GET',
@@ -42,20 +132,25 @@ apiConsole.factory('DownloadService', ['$http', '$q', function($http, $q){
 // Controllers
 // --------------------------------------------------------------------------
 
-apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadService', 'usSpinnerService', function($scope, AccountService, DownloadService, usSpinnerService) {
+apiConsole.controller('ApiConsoleCtrl', 
+  ['$rootScope',
+  '$scope', 
+  '$location',
+  '$timeout',
+  'AccountService', 
+  'DownloadService',
+  'ConsoleService',
+  'usSpinnerService', 
+  'ApiService', 
+  function($rootScope, $scope, $location, $timeout, AccountService, DownloadService, ConsoleService, usSpinnerService, ApiService) {
 
-  $scope.tab = ['api', 'edit'][0];
   $scope.view = ['list', 'console'][1];
-  $scope.swaggerUrl = null;
   $scope.swaggerEditorUrl = null;
   $scope.swaggerContent = null;
-  $scope.canWriteSwagger = false;
   $scope.saveFailed = false;
   $scope.saveInProgress = false;
   
   var githubApi = null;
-  var repoApi = null;
-  var swaggerGithubData = null;
 
   /* 
   parses out github 'owner', 'repo', 'branch' and 'path' from a given github download_url
@@ -80,20 +175,43 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
     return response;
   }
 
-  //precondition: $scope.swaggerUrl is set
-  init = function() {
-  
+  $scope.getSwaggerUrl = function() {
+    return ApiService.getSelectedSwaggerUrl();
+  }
+
+  $scope.getTab = function() {
+    return ConsoleService.getTab();
+  }
+
+  $scope.setTab = function(tab) {
+    ConsoleService.setTab(tab);
+  }
+
+  //precondition: $scope.getSwaggerUrl returns not null
+  refresh = function() {
+
+    console.log("refresh");
+
+    //if a swagger url hasn't been selected, redirect user to the api list
+    if ($scope.getSwaggerUrl() == null) {
+      $location.path('/list');
+      console.log("swagger url not set.  redirecting");
+      return;
+    }
+
     //get account info
-    AccountService.getAccountFromSession().then(function(result) {
+    AccountService.getAccount().then(function(result) {
 
       $scope.account = result;
       
       //determine which github repo (if any) the swagger file is from
       try{
-        swaggerGithubData = parseGithubInfoFromDownloadUrl($scope.swaggerUrl);
+        //console.log("parsing github info from swagger url: "+$scope.getSwaggerUrl());
+        var swaggerGithubData = parseGithubInfoFromDownloadUrl($scope.getSwaggerUrl());
+        ConsoleService.setSwaggerGithubData(swaggerGithubData);
       } catch (e) {
         console.log("swagger file not from github")
-        swaggerGithubData = {};
+        swaggerGithubData = null;
       }
 
       //configure github api with the authenticated user's access token
@@ -102,68 +220,63 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
          auth: "oauth"
       });
 
-      repoApi = githubApi.getRepo(swaggerGithubData.owner, swaggerGithubData.repo);
-       
-      //check if user has write access to the github repo that hosts the swagger file
-      repoApi.contributors(function(err, data) {
+      if (swaggerGithubData) {
+        ConsoleService.setGithubRepo(githubApi.getRepo(swaggerGithubData.owner, swaggerGithubData.repo));
+         
+        //check if user has write access to the github repo that hosts the swagger file
+        ConsoleService.getGithubRepo().contributors(function(err, data) {
 
-        for (var i = 0; i < data.length; i++) {
-          var contributor = data[i];
-          if (contributor.author.id == $scope.account.id) {
-            $scope.$apply(function(){
-              $scope.canWriteSwagger = true;
-            });
-            break;
+
+          for (var i = 0; i < data.length; i++) {
+            var contributor = data[i];
+            //console.log(JSON.stringify(contributor.author));
+            if (contributor.author.id == $scope.account.id) {
+              ConsoleService.setSwaggerEditable(true);
+            }
           }
-        }
 
-        if (!$scope.canWriteSwagger) {
-          console.log("user doesn't have 'write' access to swagger file")
-        }
-      });
+          if (!ConsoleService.getSwaggerEditable()) {
+            console.log("user doesn't have 'write' access to swagger file (a)")
+          }
+        });
+
+      }
+      else {
+        console.log("user doesn't have 'write' access to swagger file (b)")
+      }
 
       //download the swagger file
-      DownloadService.getUrl($scope.swaggerUrl).then(function(data) {
-        $scope.swaggerContent = data;
+      DownloadService.getUrl($scope.getSwaggerUrl()).then(function(data) {
+        ConsoleService.setSwaggerContent(data);
+        $scope.initEditor();
       })
+
+      document.getElementById('swagger-ui-iframe').src = "swagger-ui.html?swaggerUrl="+$scope.getSwaggerUrl()+"?"+(new Date().getTime());
 
     });
    
   }
-
-  $scope.setSwaggerUrl = function(url) {
-    $scope.swaggerUrl = url;
-    init();
-  }
-
-  $scope.login = function() {
-    console.log("login");
-    //SessionService.setAccessToken("dummy token");
-    $scope.startGithubLogin();
-  }
-
-  $scope.logout = function() {
-    window.location = "./logout"
-  }
-
-  $scope.startGithubLogin = function() {
-    window.location = "./auth/github"
-  }
-
-  $scope.isSaveEnabled = function() {
-    if ($scope.tab != 'edit' || !$scope.canWriteSwagger) {
-      return false;
-    }
-
-    $scope.initEditor();
-    return true;
-  }
-  
+ 
   $scope.injectEditor = function(obj) {
     var editorIframe = document.getElementById("swagger-editor-iframe");
     var contentWindow = editorIframe.contentWindow;
+    if (!contentWindow.angular) {
+      $timeout(function() {
+        $scope.injectEditor(obj);
+      }, 500);
+      return;
+    }
+
     var injector = contentWindow.angular.element(editorIframe.contentDocument.body).injector();
-    injector.invoke(obj);
+    if (!injector) {
+      $timeout(function() {
+        $scope.injectEditor(obj);
+      }, 500);
+      return;
+    }
+
+    var injector = contentWindow.angular.element(editorIframe.contentDocument.body).injector();
+    injector.invoke(obj);    
   }
 
   $scope.initEditor = function() {
@@ -174,31 +287,19 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
     }
 
     $scope.injectEditor(["$rootScope",function($rootScope){
-      //console.log("$rootScope:"+$rootScope);
-      $rootScope.editorValue = $scope.swaggerContent;
+      $rootScope.editorValue = ConsoleService.getSwaggerContent();
     }]);
   }
 
   $scope.setSwaggerContentFromEditor = function() {
     $scope.injectEditor(["$rootScope",function($rootScope){      
-      $scope.swaggerContent = $rootScope.editorValue;
+      ConsoleService.setSwaggerContent($rootScope.editorValue);
     }]);
   }
 
-  $scope.saveBegin = function(){
-    $scope.saveInProgress = true;
-    usSpinnerService.spin('spinner-save');
-  }
-
-  $scope.saveEnd = function(){
-    $scope.saveInProgress = false;
-    usSpinnerService.stop('spinner-save')
-  }
-
   $scope.saveEditorContentsToGithub = function() {
-    $scope.saveBegin();
     $scope.setSwaggerContentFromEditor();
-
+    var swaggerGithubData = ConsoleService.getSwaggerGithubData()
     var options = {
       //author: {name: 'Author Name', email: 'author@example.com'},
       //committer: {name: 'Committer Name', email: 'committer@example.com'},
@@ -209,18 +310,23 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
 
     //repoApi.show(function(err, repo) {console.log(repo)});
 
-    
     //note: this call causes an HTTP 404 error if the user doesn't have permission to write to the repo OR
     //if the application doesn't have access to write to the repo
-    repoApi.write(swaggerGithubData.branch, 
+    ConsoleService.getGithubRepo().write(swaggerGithubData.branch, 
       swaggerGithubData.path, 
-      $scope.swaggerContent, 
+      ConsoleService.getSwaggerContent(), 
       commitMsg, 
       options, 
       function(err) {
-        $scope.$apply(function(){
-          $scope.saveEnd();
-          $scope.saveFailed = (err != null);
+        $scope.$apply(function(){         
+          
+          ConsoleService.setSaveFailed(err != null);
+          ConsoleService.setSaveInProgress(false);
+
+          if (!err) {
+            refresh();
+          }
+
         });
       }
     );
@@ -232,8 +338,41 @@ apiConsole.controller('ApiConsoleCtrl', ['$scope', 'AccountService', 'DownloadSe
     */
   }
 
+  $rootScope.$on('save-triggered', function() {
+    $scope.saveEditorContentsToGithub();
+  }); 
 
+  refresh();
 
+}])
+
+apiConsole.controller('ConsoleMenuCtrl', 
+  ['$scope', 'ConsoleService',
+    function($scope, ConsoleService) {
+
+  $scope.getTab = function() {
+    return ConsoleService.getTab();
+  }
+
+  $scope.setTab = function(tab) {
+    ConsoleService.setTab(tab);
+  }
+      
+  $scope.isSaveEnabled = function() {
+    return ConsoleService.isSaveEnabled();
+  }   
+
+  $scope.triggerSave = function() {
+    ConsoleService.triggerSave();
+  }
+
+  $scope.getSaveInProgress = function() {
+    return ConsoleService.getSaveInProgress();
+  }
+
+  $scope.getSaveFailed = function() {
+    return ConsoleService.getSaveFailed();
+  }
 
 }])
 

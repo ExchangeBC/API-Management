@@ -1,0 +1,24 @@
+<div style="height:100%">
+
+<div class="container" ng-show="getTab() == 'api'" style="height: 100%" ng-cloak>
+  <table height="100%" width="100%">
+  <tr>
+  <td> 
+    <iframe id="swagger-ui-iframe" style="border:none;position:relative;width:100%;height:100%;display:block;" height="100%"></iframe>
+  </td>
+  </tr>
+  </table>
+</div>
+
+<div id="swagger-editor-container" ng-show="getTab() == 'edit'" ng-cloak  style="height: 100%; border-bottom: 1px solid #666666;">
+
+  <table height="100%" width="100%">
+  <tr>
+  <td>      
+    <iframe id="swagger-editor-iframe" style="border:none;position:relative;width:100%;height:100%;display:block;" height="100%" src="/swagger-editor"></iframe>
+  </td>
+  </tr>
+  </table>
+</div>
+
+</div>

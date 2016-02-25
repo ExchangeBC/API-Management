@@ -1,49 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>API List</title>
-<link rel="stylesheet" href="api-list.css"/>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"/>
-<link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
-
-<script src="lib/jquery/1.11.3/jquery-1.11.3.min.js"></script>
-<script src="lib/angular/1.4.8/angular.js"></script>
-<script src="lib/angular/1.4.8/angular-cookies.min.js"></script>
-<script src="lib/angular/1.4.8/angular-sanitize.min.js"></script>
-<script src="lib/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-
-<script src="api-list.js"></script>
-<script src="account.js"></script>
-<script src="lib/spin/spin.min.js"></script>
-<script src="lib/angular-spinner/angular-spinner.js"></script>
-<script src="lib/angular-resource/angular-resource.js"></script>
-</head>
-
-<body ng-app="ApiList" ng-controller="ApiCtrl">
-
-<!-- header -->
-<div class="navbar navbar-default">
-  <div class="container">
-    <div class="navbar-header">
-      <a href="https://www.bcdevexchange.org/home" class="navbar-brand">BCDevExchange</a>
-    
-    </div>
-    <div class="navbar-collapse collapse" id="navbar-main">
-      <ul class='nav navbar-nav navbar-left'>
-        <!--li ng-show="config.resourcesPage" ng-cloak><a href="https://www.bcdevexchange.org/resources" ng-cloak>Resources</a>
-        </li-->  
-      </ul>
-      
-      <ul class='nav navbar-nav navbar-right'>
-        <li ng-hide="account.username"><a href="#" ng-click="login()">Log In</a></li>
-        <li ng-show="account.username"><a href="#" ng-click="logout()">Log Out ({{account.username}})</a></li>
-      </ul>
-
-    </div>    
-  </div>
-</div>
-<!-- end header -->
-
+<br/>
 
 <div class="container">
     <h1>API List</h1>
@@ -92,7 +47,7 @@
                             <br>
                         </div>
                         <div class="col-md-3 col-lg-2" ng-show="{{api.url != null}}">
-                            <a href="api-console.html?swaggerUrl={{api.url}}" class="btn btn-primary btn-block" ng-bind-html="'View'"></a>
+                            <button class="btn btn-primary btn-block" ng-bind-html="'View'" ng-click="goToApi(api.url);"></button>
                         </div>
                     </div>
                     
@@ -127,8 +82,3 @@
         </div>
     </div>
 </div>
-
-<div ng-include="'footer.html'"></div>
-
-</body>
-</html>

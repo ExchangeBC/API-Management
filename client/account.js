@@ -7,10 +7,11 @@ accountModule.factory('AccountService', ['$q', '$http', function($q, $http){
   return {
 
     //returns a promise
-    getAccountFromSession: function(url) {
+    getAccount: function(url) {
       return $http({
         url: "./api/account",
         method: 'GET',
+        cache: "true",
         headers: {
         "Cache-control": "no-cache"
         },
