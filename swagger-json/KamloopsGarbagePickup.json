@@ -1,139 +1,96 @@
-{
-    "swagger": "2.0",
-    "info": {
-        "title": "Kamloops Garbage Pickup ArcGIS Rest API",
-        "description": "This API provides information about garbage pickup schedules in the city of Kamloops.",
-        "version": "1.0.0",
-        "license": {
-            "name": "Open Government License - British Columbia",
-            "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
-        },
-        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
-    },
-    "tags": [
-        {
-            "name": "resources"
-        }
-        ],
-    "host": "uat-api.bcdevexchange.org",
-    "basePath": "/KamloopsGarbagePickup",
-    "schemes": [
-        "http",
-        "https"
-    ],
-    "produces": [
-        "application/json"
-    ],
-    "paths": {
-        "/1/query": {
-            "get": {
-                "description": "Identifies the garbage pickup zone corresponding to a given geographic location (e.g. latitude and longitude).",
-                "tags": [
-                    "resources"
-                    ],
-                "parameters": [
-                    {
-                        "name": "geometry",
-                        "in": "query",
-                        "description": "The geographic point for which to identify the garbage pickup zone.  It must be specified as a comma-separated x,y value in the given spatial reference system.",
-                        "type": "string",
-                        "required": true,
-                        "default": "-120.33,50.67"
-                    },
-                    {
-                        "name": "inSR",
-                        "in": "query",
-                        "description": "The spatial reference ID of the geometry.  The value 4326 is a common value that refers to latitude and longitude (WGS84)",
-                        "type": "string",
-                        "required": true,
-                        "default": "4326"
-                    },
-                    {
-                        "name": "geometryType",
-                        "in": "query",
-                        "description": "Indicates that the 'geometry' field specifies a single point (should not be modified)",
-                        "type": "string",
-                        "required": true,
-                        "default": "esriGeometryPoint",
-                        "enum": [
-                            "esriGeometryPoint"
-                        ]
-                    },
-                    {
-                        "name": "spatialRel",
-                        "in": "query",
-                        "description": "Indicates that the query will search for garbage pickup zones that 'intersect' the given 'geometry' point (should not be modified)",
-                        "type": "string",
-                        "required": true,
-                        "default": "esriSpatialRelIntersects",
-                        "enum": [
-                            "esriSpatialRelIntersects"
-                        ]
-                    },
-                    {
-                        "name": "returnGeometry",
-                        "in": "query",
-                        "description": "Specifies whether the geometry of the zone polygon should be included in the response",
-                        "type": "string",
-                        "required": true,
-                        "default": "false",
-                        "enum": [
-                            "true",
-                            "false"
-                        ]
-                    },
-                    {
-                        "name": "f",
-                        "in": "query",
-                        "description": "The output format",
-                        "type": "string",
-                        "required": true,
-                        "default": "json",
-                        "enum": [
-                            "json"
-                        ]
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of packages"
-                    }
-                }
-            }
-        },
-        "/schedules/query": {
-            "get": {
-                "description": "Returns the garbage pickup dates for a given zone.",
-                "tags": [
-                    "resources"
-                    ],
-                "parameters": [
-                    {
-                        "name": "where",
-                        "in": "query",
-                        "description": "A SQL-like where clause identifying the zone. The clause may refer to the attributes 'zone' and 'pickupdate'",
-                        "type": "string",
-                        "required": true,
-                        "default": "zone = '3'"
-                    },
-                    {
-                        "name": "f",
-                        "in": "query",
-                        "description": "The output format",
-                        "type": "string",
-                        "required": true,
-                        "default": "json",
-                        "enum": [
-                            "json"
-                        ]
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "List of packages"
-                    }
-                }
-            }
-        }
-    }
-}
+swagger: '2.0'
+info:
+  title: Kamloops Garbage Pickup ArcGIS Rest API
+  description: This API provides information about garbage pickup schedules in the city of Kamloops.
+  version: 1.0.0
+  license:
+    name: Open Government License - British Columbia
+    url: 'http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf'
+  termsOfService: 'http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf'
+tags:
+  - name: resources
+host: uat-api.bcdevexchange.org
+basePath: /KamloopsGarbagePickup
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+paths:
+  /1/query:
+    get:
+      description: Identifies the garbage pickup zone corresponding to a given geographic location (e.g. latitude and longitude).
+      tags:
+        - resources
+      parameters:
+        - name: geometry
+          in: query
+          description: 'The geographic point for which to identify the garbage pickup zone.  It must be specified as a comma-separated x,y value in the given spatial reference system.'
+          type: string
+          required: true
+          default: '-120.33,50.67'
+        - name: inSR
+          in: query
+          description: The spatial reference ID of the geometry.  The value 4326 is a common value that refers to latitude and longitude (WGS84)
+          type: string
+          required: true
+          default: '4326'
+        - name: geometryType
+          in: query
+          description: "Indicates that the 'geometry' field specifies a single point (should not be modified)"
+          type: string
+          required: true
+          default: esriGeometryPoint
+          enum:
+            - esriGeometryPoint
+        - name: spatialRel
+          in: query
+          description: "Indicates that the query will search for garbage pickup zones that 'intersect' the given 'geometry' point (should not be modified)"
+          type: string
+          required: true
+          default: esriSpatialRelIntersects
+          enum:
+            - esriSpatialRelIntersects
+        - name: returnGeometry
+          in: query
+          description: Specifies whether the geometry of the zone polygon should be included in the response
+          type: string
+          required: true
+          default: 'false'
+          enum:
+            - 'true'
+            - 'false'
+        - name: f
+          in: query
+          description: The output format
+          type: string
+          required: true
+          default: json
+          enum:
+            - json
+      responses:
+        '200':
+          description: List of packages
+  /schedules/query:
+    get:
+      description: Returns the garbage pickup dates for a given zone.
+      tags:
+        - resources
+      parameters:
+        - name: where
+          in: query
+          description: "A SQL-like where clause identifying the zone. The clause may refer to the attributes 'zone' and 'pickupdate'"
+          type: string
+          required: true
+          default: "zone = '3'"
+        - name: f
+          in: query
+          description: The output format
+          type: string
+          required: true
+          default: json
+          enum:
+            - json
+      responses:
+        '200':
+          description: List of packages
