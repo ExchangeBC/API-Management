@@ -186,36 +186,38 @@ apiConsole.controller('ApiConsoleCtrl',
   //precondition: ApiService.getSelectedSwaggerUrl() returns not null
   refresh = function() {
 
-    console.log("refresh");
-
     //if a swagger url hasn't been selected, redirect user to the api list
     if (ApiService.getSelectedSwaggerUrl() == null) {
       $location.path('/list');
       console.log("swagger url not set.  redirecting");
       return;
     }
+    console.log("refreshing console: "+ApiService.getSelectedSwaggerUrl())
 
     //get account info
     AccountService.getAccount().then(function(result) {
 
       $scope.account = result;
-      
+      console.log("got account");      
       //determine which github repo (if any) the swagger file is from
       try{
         var swaggerGithubData = parseGithubInfoFromDownloadUrl(ApiService.getSelectedSwaggerUrl());
         ConsoleService.setSwaggerGithubData(swaggerGithubData);
       } catch (e) {
-        console.log("swagger file not from github")
+        console.log("swagger file not from github");
         swaggerGithubData = null;
       }
 
-      //configure github api with the authenticated user's access token
-      githubApi = new Github({
-         token: $scope.account.token,
-         auth: "oauth"
-      });
+      //check if the file is editable
+      //(only when the user is logged in, and the file is hosted on github)
+      if ($scope.account.username && swaggerGithubData) {
 
-      if (swaggerGithubData) {
+        //configure github api with the authenticated user's access token
+        githubApi = new Github({
+           token: $scope.account.token,
+           auth: "oauth"
+        });
+        
         ConsoleService.setGithubRepo(githubApi.getRepo(swaggerGithubData.owner, swaggerGithubData.repo));
          
         //check if user has write access to the github repo that hosts the swagger file
@@ -240,12 +242,13 @@ apiConsole.controller('ApiConsoleCtrl',
         console.log("user doesn't have 'write' access to swagger file (b)")
       }
 
-      //download the swagger file
+      //download the swagger file, and reset the editor
       DownloadService.getUrl(ApiService.getSelectedSwaggerUrl()).then(function(data) {
         ConsoleService.setSwaggerContent(data);
         $scope.initEditor();
       })
 
+      //reset the swagger-ui
       document.getElementById('swagger-ui-iframe').src = "swagger-ui.html?swaggerUrl="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
 
     });
