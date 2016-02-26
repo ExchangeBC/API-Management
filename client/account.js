@@ -11,7 +11,7 @@ accountModule.factory('AccountService', ['$q', '$http', function($q, $http){
       return $http({
         url: "./api/account",
         method: 'GET',
-        //cache: "true",
+        cache: "true",
         headers: {
         "Cache-control": "no-cache"
         },
