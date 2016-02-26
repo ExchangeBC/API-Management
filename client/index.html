@@ -39,23 +39,23 @@
           <ul class='nav navbar-nav navbar-left'>
             <!--li ng-show="config.resourcesPage" ng-cloak><a href="https://www.bcdevexchange.org/resources" ng-cloak>Resources</a>
             </li-->
-            <li ng-cloak ng-show="getView() == 'console' && account.username" ng-class="{'active': getTab() == 'api'}"><a href="" ng-click="setTab('api')">API</a></li>            
-            <li ng-cloak ng-show="getView() == 'console' && account.username" ng-class="{'active': getTab() == 'edit'}"><a href="" ng-click="setTab('edit')">Edit</a></li>    
+            <li ng-cloak ng-show="getView() == 'console' && account.username" ng-class="{'active': ConsoleService.getTab() == 'api'}"><a href="" ng-click="ConsoleService.setTab('api')">API</a></li>            
+            <li ng-cloak ng-show="getView() == 'console' && account.username" ng-class="{'active': ConsoleService.getTab() == 'edit'}"><a href="" ng-click="ConsoleService.setTab('edit')">Edit</a></li>    
             <li ng-cloak ng-show="getView() == 'console'"><a href="/#/list">API List</a></li>
           </ul>
           
           <ul class='nav navbar-nav navbar-right'>            
             <li ng-cloak ng-hide="account.username"><a href="" ng-click="login()">
-              <span ng-class="{'dim':loginInProgress}">Login</span>
+              <span ng-class="{'dim':ConsoleService.loginInProgress}">Login</span>
               <!--span us-spinner="{radius:4, width:3, length: 3, color: '#ffffff', position: relative}" spinner-on="loginInProgress"></span-->
             </a></li>
             <li ng-cloak ng-show="account.username"><a href="" ng-click="logout()">Log Out ({{account.username}})</a></li>
-            <li ng-cloak ng-show="getView() == 'console' && getTab() == 'edit' && isSaveEnabled()">
+            <li ng-cloak ng-show="getView() == 'console' && ConsoleService.getTab() == 'edit' && ConsoleService.swaggerEditable">
               
-              <a href="" ng-click="triggerSave()">
-              <span ng-class="{'dim':getSaveInProgress()}">Save</span>
-              <span ng-class="{'dim':getSaveInProgress()}" ng-show="getSaveFailed()" class="glyphicon glyphicon-alert" style="color:#ffdd00" aria-hidden="true"></span>
-              <span ng-show="getSaveInProgress()" us-spinner="{radius:4, width:3, length: 3, color: '#ffffff', position: relative}" spinner-key="spinner-save" spinner-start-active="true"></span>
+              <a href="" ng-click="ConsoleService.triggerSave()">
+              <span ng-class="{'dim':ConsoleService.getSaveInProgress()}">Save</span>
+              <span ng-class="{'dim':ConsoleService.getSaveInProgress()}" ng-show="getSaveFailed()" class="glyphicon glyphicon-alert" style="color:#ffdd00" aria-hidden="true"></span>
+              <span ng-show="ConsoleService.getSaveInProgress()" us-spinner="{radius:4, width:3, length: 3, color: '#ffffff', position: relative}" spinner-key="spinner-save" spinner-start-active="true"></span>
               </a>     
 
             </li>

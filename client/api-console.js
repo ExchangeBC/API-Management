@@ -16,13 +16,13 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
     swaggerGithubData: null,
     saveInProgress: false,
     saveFailed: false,
+    listeners: [],
 
     getTab: function() {
       return this.tab;
     },
     setTab: function(tab) {
       this.tab = tab;
-      $rootScope.$emit('tab-changed', this.tab);
     },
 
     setSwaggerEditable(editable) {
@@ -33,11 +33,7 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
     },
 
     setSwaggerContent(content) {
-      var changed = (this.swaggerContent != content)
       this.swaggerContent = content;
-      console.log("set swagger content:"+content.substr(0,100)+"...");
-      if (changed)
-        $rootScope.$emit('swagger-content-changed');
     },
     getSwaggerContent() {
       return this.swaggerContent;
@@ -71,7 +67,12 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
       return this.saveFailed;
     },
 
+    addListener(listener) {
+      this.listeners.push(listener);
+    },
+
     isSaveEnabled() {
+      console.log(this.getTab() + "," + this.isSwaggerEditable());
       if (this.getTab() != 'edit' || !this.isSwaggerEditable()) {
         return false;
       }
@@ -81,7 +82,14 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
 
     triggerSave() {
       this.setSaveInProgress(true);
-      $rootScope.$emit('save-triggered');
+      this.triggerEvent('save-triggered');
+    },
+
+    triggerEvent(eventName) {
+      for (var i = 0; i < this.listeners.length; i++) {
+        var listener = this.listeners[i];
+        listener.$emit(eventName);
+      }
     }
 
 
@@ -153,6 +161,8 @@ apiConsole.controller('ApiConsoleCtrl',
   
   var githubApi = null;
 
+  ConsoleService.addListener($scope);
+
   /* 
   parses out github 'owner', 'repo', 'branch' and 'path' from a given github download_url
   return an object of this form:
@@ -187,6 +197,8 @@ apiConsole.controller('ApiConsoleCtrl',
   //precondition: ApiService.getSelectedSwaggerUrl() returns not null
   refresh = function() {
 
+    ConsoleService.setSwaggerEditable(false);
+
     //if a swagger url hasn't been selected, redirect user to the api list
     if (ApiService.getSelectedSwaggerUrl() == null) {
       $location.path('/list');
@@ -198,8 +210,7 @@ apiConsole.controller('ApiConsoleCtrl',
     //get account info
     AccountService.getAccount().then(function(result) {
 
-      $scope.account = result;
-      console.log("got account");      
+      $scope.account = result;     
       //determine which github repo (if any) the swagger file is from
       try{
         var swaggerGithubData = parseGithubInfoFromDownloadUrl(ApiService.getSelectedSwaggerUrl());
@@ -212,7 +223,7 @@ apiConsole.controller('ApiConsoleCtrl',
       //check if the file is editable
       //(only when the user is logged in, and the file is hosted on github)
       if ($scope.account.username && swaggerGithubData) {
-
+        console.log("user is logged in, and file is hosted on github")
         //configure github api with the authenticated user's access token
         githubApi = new Github({
            token: $scope.account.token,
@@ -223,13 +234,15 @@ apiConsole.controller('ApiConsoleCtrl',
          
         //check if user has write access to the github repo that hosts the swagger file
         ConsoleService.getGithubRepo().contributors(function(err, data) {
-
+        console.log("looking through contributors");
 
           for (var i = 0; i < data.length; i++) {
             var contributor = data[i];
             //console.log(JSON.stringify(contributor.author));
             if (contributor.author.id == $scope.account.id) {
-              ConsoleService.setSwaggerEditable(true);
+              $scope.$apply(function(){
+                ConsoleService.setSwaggerEditable(true);
+              });
             }
           }
 
@@ -253,8 +266,8 @@ apiConsole.controller('ApiConsoleCtrl',
       document.getElementById('swagger-ui-iframe').src = "swagger-ui.html?swaggerUrl="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
 
       //reset the swagger-editor
-      var editorUrl =  "/swagger-editor/dist/#/?import="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
-      console.log(editorUrl);
+      //var editorUrl =  "/swagger-editor/dist/#/?import="+ApiService.getSelectedSwaggerUrl()+"?"+(new Date().getTime());
+      var editorUrl = "/swagger-editor/dist/#/";
       document.getElementById('swagger-editor-iframe').src = editorUrl;
 
 
@@ -285,8 +298,8 @@ apiConsole.controller('ApiConsoleCtrl',
   }
 
   $scope.initEditor = function() {
-    console.log("init editor: do nothing");
-    return;
+    //console.log("init editor: do nothing");
+    //return;
     var isInitialized = false; //$scope.swaggerContent != null;
 
     if (isInitialized) {
@@ -294,8 +307,12 @@ apiConsole.controller('ApiConsoleCtrl',
     }
 
     $scope.injectEditor(["$rootScope",function($rootScope){
+      
+      //set content in the swagger editor, and fire an event that 
+      //the swagger editor listens to as a trigger to initialization
       $rootScope.editorValue = ConsoleService.getSwaggerContent();
-      console.log("updated editor content: "+$rootScope.editorValue.substr(0,100)+"...");
+      $rootScope.$emit("$stateChangeStart");
+      //console.log("updated editor content: "+$rootScope.editorValue.substr(0,100)+"...");
     }]);
   }
 
@@ -306,6 +323,7 @@ apiConsole.controller('ApiConsoleCtrl',
   }
 
   $scope.saveEditorContentsToGithub = function() {
+    console.log("saving");
     $scope.setSwaggerContentFromEditor();
     var swaggerGithubData = ConsoleService.getSwaggerGithubData()
     var options = {
@@ -346,7 +364,7 @@ apiConsole.controller('ApiConsoleCtrl',
     */
   }
 
-  $rootScope.$on('save-triggered', function() {
+  $scope.$on('save-triggered', function() {
     $scope.saveEditorContentsToGithub();
   }); 
 
@@ -358,30 +376,7 @@ apiConsole.controller('ConsoleMenuCtrl',
   ['$scope', 'ConsoleService',
     function($scope, ConsoleService) {
 
-  $scope.getTab = function() {
-    return ConsoleService.getTab();
-  }
-
-  $scope.setTab = function(tab) {
-    ConsoleService.setTab(tab);
-  }
-      
-  $scope.isSaveEnabled = function() {
-    return ConsoleService.isSaveEnabled();
-  }   
-
-  $scope.triggerSave = function() {
-    ConsoleService.triggerSave();
-  }
-
-  $scope.getSaveInProgress = function() {
-    return ConsoleService.getSaveInProgress();
-  }
-
-  $scope.getSaveFailed = function() {
-    return ConsoleService.getSaveFailed();
-  }
-
+  $scope.ConsoleService = ConsoleService;
 }])
 
 })();
