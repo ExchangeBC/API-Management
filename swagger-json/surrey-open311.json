@@ -1,29 +1,37 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "City of Surrey Service Request API (Open311).",
-        "description": "This API provides real-time access to query service requests submitted to the City of Surrey Engineering and Parks departments based on the Open311 standard",
-        "version": "2",
+        "title": "Geocoder REST API",
+        "description": "This API can be used to resolve the physical locations (i.e., latitude and longitude) and correct, standardized forms of civic and non-civic addresses in British Columbia...",
+        "version": "2.0.0",
         "license": {
             "name": "Open Government License - British Columbia",
             "url": "http://www.data.gov.bc.ca/local/dbc/docs/license/OGL-vbc2.0.pdf"
         },
-        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf"
+        "termsOfService": "http://www.data.gov.bc.ca/local/dbc/docs/license/API_Terms_of_Use.pdf",
+        "contact": {
+            "name": "Data BC",
+            "url": "http://data.gov.bc.ca/",
+            "email": "datacat@gov.bc.ca"
+        }
     },
     "externalDocs": {
-        "description": "City of Surrey Service Request Web Site",
-        "url": "http://wiki.open311.org/GeoReport_v2/"
+        "description": "Physical Address Geocoder Web Site",
+        "url": "http://apps.gov.bc.ca/pub/geocoder"
     },
     "tags": [
         {
-            "name": "services"
+            "name": "addresses"
         },
         {
-            "name": "requests"
+            "name": "sites"
+        },
+        {
+            "name": "intersections"
         }
     ],
-    "host": "cosmos.surrey.ca",
-    "basePath": "/api/open311",
+    "host": "api.gov.bc.ca",
+    "basePath": "/geocoder",
     "schemes": [
         "http",
         "https"
@@ -32,15 +40,15 @@
         "application/json"
     ],
     "paths": {
-        "/services.{output_format}": {
+        "/addresses.{outputFormat}": {
             "get": {
-                "description": "Provides a list of acceptable Open311 service request types and their associated service codes.",
+                "description": "Geocodes a single address in British Columbia.",
                 "tags": [
-                    "services"
+                    "addresses"
                 ],
                 "parameters": [
                     {
-                        "name": "output_format",
+                        "name": "outputFormat",
                         "in": "path",
                         "description": "The output format",
                         "type": "string",
@@ -50,31 +58,222 @@
                             "json",
                             "xml"
                         ]
+                    },
+                    {
+                        "name": "addressString",
+                        "in": "query",
+                        "description": "Civic address or intersection address in Single-line Address Format or a recognized alternative format. For example: '456 Gorge Rd E, Victoria, BC'.  Either this parameter must be specified, or the address must be specified through the various structured address parameters (civicNumber, streetName, streetType, etc.)",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "siteName",
+                        "in": "query",
+                        "description": "A string containing the name of the building, facility, or institution (e.g., Duck Building, Casa Del Mar, Crystal Garden, Bluebird House). A business name should only be used if it is permanently affixed to the site and the site has no other, more generic name. If a site is a unit within a complex, it may have a sitename in addition to a unitNumber and unitSuffix. siteName may be empty.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "unitDesignator",
+                        "in": "query",
+                        "description": "The type of unit (e.g., APT, SUITE, and UNIT) and is abbreviated if such an abbreviation is defined",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "unitNumber",
+                        "in": "query",
+                        "description": "The number of the unit, suite, or apartment within a house or building.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "unitNumberSuffix",
+                        "in": "query",
+                        "description": "A letter or fraction that follows the unit number as in Unit 1A or Suite 1 1/2.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "civicNumber",
+                        "in": "query",
+                        "description": "The official number assigned to a site by a municipality.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "civicNumberSuffix",
+                        "in": "query",
+                        "description": "Usually takes the form of a letter (e.g., as in 103A) or a fraction (as in 103 1/2).",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "streetName",
+                        "in": "query",
+                        "description": "The official name of the street recognized by a municipality (e.g., Douglas in 1175 Douglas Street). A streetName that starts with a directional is not abbreviated (e.g., North Park, not N Park).",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "streetType",
+                        "in": "query",
+                        "description": "The type of street as assigned by a municipality (e.g., the ST in 1175 DOUGLAS ST) and is abbreviated if such an abbreviation exists. The set of all street types is defined by the provincial Digital Road Atlas program.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "streetDirection",
+                        "in": "query",
+                        "description": "The abbreviated compass direction as defined by Canada Post and B.C. civic addressing authorities . The complete list is C, E, N, NE, NW, SE, SW, and W. All street directions except C are defined by Canada Post.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "streetQualifier",
+                        "in": "query",
+                        "description": "The street qualifier.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "localityName",
+                        "in": "query",
+                        "description": "The locality name.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "province",
+                        "in": "query",
+                        "description": "The province abbreviation",
+                        "type": "string",
+                        "required": false,
+                        "default": "BC"
+                    },
+                    {
+                        "name": "locationDescriptor",
+                        "in": "query",
+                        "description": "Describes the nature of the address location. A value of 'any' will return a point type other than accessPoint if one is defined; otherwise, it will return an accessPoint.",
+                        "type": "string",
+                        "required": true,
+                        "default": "any",
+                        "enum": [
+                            "any",
+                            "accessPoint",
+                            "frontDoorPoint",
+                            "parcelPoint",
+                            "rooftopPoint",
+                            "routingPoint"
+                        ]
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "description": "The number of search results to return",
+                        "type": "integer",
+                        "required": false,
+                        "default": 1
+                    },
+                    {
+                        "name": "minScore",
+                        "in": "query",
+                        "description": "The minimum score required for a match to be returned. Scores are in the range of [0-100], where 100 represents the best possible match.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 1
+                    },
+                    {
+                        "name": "setBack",
+                        "in": "query",
+                        "description": "The distance to set back the returned point location from the curb (in meters). A positive setback moves the location toward the interior of the parcel, a setback of zero returns the location of the curb, and a negative setback returns the location of the street centreline. Setback is only used for interpolated site results.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 0
+                    },
+                    {
+                        "name": "localities",
+                        "in": "query",
+                        "description": "A comma-separated list of localities to limit the search to",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "notLocalities",
+                        "in": "query",
+                        "description": "A comma-separated list of localities to exclude from the search",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "bbox",
+                        "in": "query",
+                        "description": "A bounding box (xmin,ymin,xmax,ymax) used to limit the search area.  The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "centre",
+                        "in": "query",
+                        "description": "The coordinates of a centre point (x,y) used to define a bounding area that will limit the search area. The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter. This parameter must be specified together with 'maxDistance'.",
+                        "type": "string",
+                        "required": false
+                    },
+                    {
+                        "name": "maxDistance",
+                        "in": "query",
+                        "description": "The maximum distance (metres) from the centre point that will define a bounding area to limit the search. The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter. This parameter must be specified together with 'centre'.",
+                        "type": "number",
+                        "required": false
+                    },
+                    {
+                        "name": "interpolation",
+                        "in": "query",
+                        "description": "The interpolation method to use",
+                        "type": "string",
+                        "required": false,
+                        "default": "adaptive",
+                        "enum": [
+                            "adaptive",
+                            "linear",
+                            "none"
+                        ]
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "List of service requests types"
+                        "description": "List of matching addresses and their physical locations"
                     }
                 }
             }
         },
-        "/services/{service_code}.{output_format}": {
+        "/sites/near.{outputFormat}": {
             "get": {
-                "description": "Defines the attributes associated with a particular type of service request.",
+                "description": "Identifies sites near to a given point",
                 "tags": [
-                    "services"
+                    "sites"
                 ],
                 "parameters": [
                     {
-                        "name": "service_code",
-                        "in": "path",
-                        "description": "The unique identifier for the service request type (as given by the /services resource)",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "output_format",
+                        "name": "outputFormat",
                         "in": "path",
                         "description": "The output format",
                         "type": "string",
@@ -84,24 +283,82 @@
                             "json",
                             "xml"
                         ]
+                    },
+                    {
+                        "name": "point",
+                        "in": "query",
+                        "description": "The point (x,y) from which the nearby sites will be identified. The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter.",
+                        "type": "string",
+                        "required": true,
+                        "default": "-122.377,50.121"
+                    },
+                    {
+                        "name": "maxDistance",
+                        "in": "query",
+                        "description": "The maximum distance (in metres) to search from the given point.  If not specified, the search distance is unlimited.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "description": "The number of search results to return",
+                        "type": "integer",
+                        "required": false,
+                        "default": 1
+                    },
+                    {
+                        "name": "locationDescriptor",
+                        "in": "query",
+                        "description": "Describes the nature of the address location. A value of 'any' will return a point type other than accessPoint if one is defined; otherwise, it will return an accessPoint.",
+                        "type": "string",
+                        "required": true,
+                        "default": "any",
+                        "enum": [
+                            "any",
+                            "accessPoint",
+                            "frontDoorPoint",
+                            "parcelPoint",
+                            "rooftopPoint",
+                            "routingPoint"
+                        ]
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "An object describing the attributes of a given service request type"
+                        "description": "List of nearby sites"
                     }
                 }
             }
         },
-        "/requests.{output_format}": {
+        "/sites/nearest.{outputFormat}": {
             "get": {
-                "description": "Lists the requests for a given service",
+                "description": "Identifies the site nearest to a given point",
                 "tags": [
-                    "requests"
+                    "sites"
                 ],
                 "parameters": [
                     {
-                        "name": "output_format",
+                        "name": "outputFormat",
                         "in": "path",
                         "description": "The output format",
                         "type": "string",
@@ -113,61 +370,88 @@
                         ]
                     },
                     {
-                        "name": "service_code",
+                        "name": "point",
                         "in": "query",
-                        "description": "The unique identifier for the service request type.  For example: 142699",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "start_date",
-                        "in": "query",
-                        "description": "Earliest datetime  (in w3 format) to include in search.  For example: 2010-01-01T00:00:00Z",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "end_date",
-                        "in": "query",
-                        "description": "Latest datetime (in w3 format) to include in search.   For example: 2010-01-01T00:00:00Z",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "status",
-                        "in": "query",
-                        "description": "Filters the response to include only requests with the given status",
+                        "description": "The point (x,y) from which the nearest site will be identified. The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter.",
                         "type": "string",
                         "required": true,
+                        "default": "-122.377,50.121"
+                    },
+                    {
+                        "name": "maxDistance",
+                        "in": "query",
+                        "description": "The maximum distance (in metres) to search from the given point.  If not specified, the search distance is unlimited.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
                         "enum": [
-                            "OPEN",
-                            "CLOSED"
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "minDegree",
+                        "in": "query",
+                        "description": "The minimum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 2
+                    },
+                    {
+                        "name": "maxDegree",
+                        "in": "query",
+                        "description": "The maximum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 100
+                    },
+                    {
+                        "name": "locationDescriptor",
+                        "in": "query",
+                        "description": "Describes the nature of the address location. A value of 'any' will return a point type other than accessPoint if one is defined; otherwise, it will return an accessPoint.",
+                        "type": "string",
+                        "required": true,
+                        "default": "any",
+                        "enum": [
+                            "any",
+                            "accessPoint",
+                            "frontDoorPoint",
+                            "parcelPoint",
+                            "rooftopPoint",
+                            "routingPoint"
                         ]
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "A list of service requests"
+                        "description": "The nearest site"
                     }
                 }
             }
         },
-        "/requests/{service_request_id}.{output_format}": {
+        "/sites/within.{outputFormat}": {
             "get": {
-                "description": "Provides information about a specific service request",
+                "description": "Identifies sites within a given area",
                 "tags": [
-                    "requests"
+                    "sites"
                 ],
                 "parameters": [
                     {
-                        "name": "service_request_id",
-                        "in": "path",
-                        "description": "The unique identifier of the service request",
-                        "type": "string",
-                        "required": true
-                    },
-                    {
-                        "name": "output_format",
+                        "name": "outputFormat",
                         "in": "path",
                         "description": "The output format",
                         "type": "string",
@@ -177,11 +461,444 @@
                             "json",
                             "xml"
                         ]
+                    },
+                    {
+                        "name": "bbox",
+                        "in": "query",
+                        "description": "A bounding box (xmin,ymin,xmax,ymax) used to limit the search area.  The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter.",
+                        "type": "string",
+                        "required": true,
+                        "default": "-122.89,49.30,-122.91,49.36"
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "description": "The number of search results to return",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "setBack",
+                        "in": "query",
+                        "description": "The distance to set back the returned point location from the curb (in meters). A positive setback moves the location toward the interior of the parcel, a setback of zero returns the location of the curb, and a negative setback returns the location of the street centreline. Setback is only used for interpolated site results.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 0
+                    },
+                    {
+                        "name": "locationDescriptor",
+                        "in": "query",
+                        "description": "Describes the nature of the address location. A value of 'any' will return a point type other than accessPoint if one is defined; otherwise, it will return an accessPoint.",
+                        "type": "string",
+                        "required": true,
+                        "default": "any",
+                        "enum": [
+                            "any",
+                            "accessPoint",
+                            "frontDoorPoint",
+                            "parcelPoint",
+                            "rooftopPoint",
+                            "routingPoint"
+                        ]
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "An object with information about a specific service request"
+                        "description": "A list of sites within the given area"
+                    }
+                }
+            }
+        },
+        "/sites/{siteID}.{outputFormat}": {
+            "get": {
+                "description": "Looks up a site by its siteID",
+                "tags": [
+                    "sites"
+                ],
+                "parameters": [
+                    {
+                        "name": "siteID",
+                        "in": "path",
+                        "description": "The unique site identifier.  For example: e025b312-874b-4e1a-b5eb-50ea2a9858ee",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "outputFormat",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "locationDescriptor",
+                        "in": "query",
+                        "description": "Describes the nature of the address location. A value of 'any' will return a point type other than accessPoint if one is defined; otherwise, it will return an accessPoint.",
+                        "type": "string",
+                        "required": true,
+                        "default": "any",
+                        "enum": [
+                            "any",
+                            "accessPoint",
+                            "frontDoorPoint",
+                            "parcelPoint",
+                            "rooftopPoint",
+                            "routingPoint"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A site"
+                    }
+                }
+            }
+        },
+        "/intersections/near.{outputFormat}": {
+            "get": {
+                "description": "Identifies intersections near to a given point",
+                "tags": [
+                    "intersections"
+                ],
+                "parameters": [
+                    {
+                        "name": "outputFormat",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    },
+                    {
+                        "name": "point",
+                        "in": "query",
+                        "description": "The point (x,y) from which the nearby intersections will be identified. The coordinate must be specified in the same SRS as given by the 'outputSRS' parameter.",
+                        "type": "string",
+                        "required": true,
+                        "default": "-122.377,50.121"
+                    },
+                    {
+                        "name": "maxDistance",
+                        "in": "query",
+                        "description": "The maximum distance (in metres) to search from the given point.  If not specified, the search distance is unlimited.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "description": "The number of search results to return",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "minDegree",
+                        "in": "query",
+                        "description": "The minimum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 2
+                    },
+                    {
+                        "name": "maxDegree",
+                        "in": "query",
+                        "description": "The maximum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 100
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of intersections near to the given point"
+                    }
+                }
+            }
+        },
+        "/intersections/nearest.{outputFormat}": {
+            "get": {
+                "description": "Identifies the intersection nearest to a given point",
+                "tags": [
+                    "intersections"
+                ],
+                "parameters": [
+                    {
+                        "name": "outputFormat",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    },
+                    {
+                        "name": "point",
+                        "in": "query",
+                        "description": "The point (x,y) from which the nearby intersections will be identified. The coordinate must be specified in the same SRS as given by the 'outputSRS' parameter.",
+                        "type": "string",
+                        "required": true,
+                        "default": "-122.377,50.121"
+                    },
+                    {
+                        "name": "maxDistance",
+                        "in": "query",
+                        "description": "The maximum distance (in metres) to search from the given point.  If not specified, the search distance is unlimited.",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "minDegree",
+                        "in": "query",
+                        "description": "The minimum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 2
+                    },
+                    {
+                        "name": "maxDegree",
+                        "in": "query",
+                        "description": "The maximum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 100
+                    },
+                    {
+                        "name": "locationDescriptor",
+                        "in": "query",
+                        "description": "Describes the nature of the address location. A value of 'any' will return a point type other than accessPoint if one is defined; otherwise, it will return an accessPoint.",
+                        "type": "string",
+                        "required": true,
+                        "default": "any",
+                        "enum": [
+                            "any",
+                            "accessPoint",
+                            "frontDoorPoint",
+                            "parcelPoint",
+                            "rooftopPoint",
+                            "routingPoint"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "The nearest intersection"
+                    }
+                }
+            }
+        },
+        "/intersections/within.{outputFormat}": {
+            "get": {
+                "description": "Identifies intersections within a given area",
+                "tags": [
+                    "intersections"
+                ],
+                "parameters": [
+                    {
+                        "name": "outputFormat",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    },
+                    {
+                        "name": "bbox",
+                        "in": "query",
+                        "description": "A bounding box (xmin,ymin,xmax,ymax) used to limit the search area.  The coordinates must be specified in the same SRS as given by the 'outputSRS' parameter.",
+                        "type": "string",
+                        "required": true,
+                        "default": "-119.51,49.48,-119.53,49.50"
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    },
+                    {
+                        "name": "maxResults",
+                        "in": "query",
+                        "description": "The number of search results to return",
+                        "type": "integer",
+                        "required": false,
+                        "default": 10
+                    },
+                    {
+                        "name": "minDegree",
+                        "in": "query",
+                        "description": "The minimum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 2
+                    },
+                    {
+                        "name": "maxDegree",
+                        "in": "query",
+                        "description": "The maximum degree",
+                        "type": "integer",
+                        "required": true,
+                        "default": 100
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "A list of sites within the given area"
+                    }
+                }
+            }
+        },
+        "/intersections/{intersectionID}.{outputFormat}": {
+            "get": {
+                "description": "Looks up an intersection by its intersectionID",
+                "tags": [
+                    "intersections"
+                ],
+                "parameters": [
+                    {
+                        "name": "intersectionID",
+                        "in": "path",
+                        "description": "The unique intersection identifier.  For example: 152bff6a-4c30-454a-abda-04edaccfb34b",
+                        "type": "string",
+                        "required": true
+                    },
+                    {
+                        "name": "outputFormat",
+                        "in": "path",
+                        "description": "The output format",
+                        "type": "string",
+                        "required": true,
+                        "default": "json",
+                        "enum": [
+                            "json",
+                            "xml"
+                        ]
+                    },
+                    {
+                        "name": "outputSRS",
+                        "in": "query",
+                        "description": "The spatial reference system (SRS) to use for output geometries. The default value is 4326 (WGS84, latitude/longitude).  Other common options are: 4269 (NAD83, latitude/longitude), 3005 (NAD83, BC Albers), 26907 (NAD83, UTM Zone 7N), 26908 (NAD83, UTM Zone 8N), 26909 (NAD83, UTM Zone 9N), 26910 (NAD83, UTM Zone 10N), 26911 (NAD83, UTM Zone 11N)",
+                        "type": "integer",
+                        "required": true,
+                        "default": 4326,
+                        "enum": [
+                            4326,
+                            4269,
+                            3005,
+                            26907,
+                            26908,
+                            26909,
+                            26910,
+                            26911
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "An intersection"
                     }
                 }
             }
