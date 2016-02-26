@@ -5,9 +5,8 @@ var apimApp = angular.module('apim-app', [
   'angularSpinner'
 ]);
 
-
-apimApp.config(['$routeProvider',
-  function($routeProvider) {
+apimApp.config(['$routeProvider', '$locationProvider',
+  function($routeProvider, $locationProvider) {
     $routeProvider.
       when('/list', {
         templateUrl: 'view-list.html',
@@ -20,6 +19,9 @@ apimApp.config(['$routeProvider',
       otherwise({
         redirectTo: '/list'
       });
+
+      // use the HTML5 History API
+      $locationProvider.html5Mode(true);
   }]);
 
 

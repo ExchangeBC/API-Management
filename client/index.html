@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+<base href="/">
+
 <title>API Console</title>
 
 <link rel="stylesheet" href="apim-app.css"/>
@@ -41,7 +45,7 @@
             </li-->
             <li ng-cloak ng-show="getView() == 'console' && account.username" ng-class="{'active': ConsoleService.getTab() == 'api'}"><a href="" ng-click="ConsoleService.setTab('api')">API</a></li>            
             <li ng-cloak ng-show="getView() == 'console' && account.username" ng-class="{'active': ConsoleService.getTab() == 'edit'}"><a href="" ng-click="ConsoleService.setTab('edit')">Edit</a></li>    
-            <li ng-cloak ng-show="getView() == 'console'"><a href="/#/list">API List</a></li>
+            <li ng-cloak ng-show="getView() == 'console'"><a href="/list">API List</a></li>
           </ul>
           
           <ul class='nav navbar-nav navbar-right'>            

@@ -25,53 +25,53 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
       this.tab = tab;
     },
 
-    setSwaggerEditable(editable) {
+    setSwaggerEditable: function(editable) {
       this.swaggerEditable = editable;
     },
-    isSwaggerEditable() {
+    isSwaggerEditable: function() {
       return this.swaggerEditable;
     },
 
-    setSwaggerContent(content) {
+    setSwaggerContent: function(content) {
       this.swaggerContent = content;
     },
-    getSwaggerContent() {
+    getSwaggerContent: function() {
       return this.swaggerContent;
     },
 
-    setGithubRepo(repo) {
+    setGithubRepo: function(repo) {
       this.githubRepo = repo;
     },
-    getGithubRepo() {
+    getGithubRepo: function() {
       return this.githubRepo;
     },
 
-    setSwaggerGithubData(data) {
+    setSwaggerGithubData: function(data) {
       this.swaggerGithubData = data;
     },
-    getSwaggerGithubData() {
+    getSwaggerGithubData: function() {
       return this.swaggerGithubData;
     }, 
 
-    setSaveInProgress(status) {
+    setSaveInProgress: function(status) {
       this.saveInProgress = status;
     },
-    getSaveInProgress() {
+    getSaveInProgress: function() {
       return this.saveInProgress;
     },
 
-    setSaveFailed(status) {
+    setSaveFailed: function(status) {
       this.saveFailed = status;
     },
-    getSaveFailed() {
+    getSaveFailed: function() {
       return this.saveFailed;
     },
 
-    addListener(listener) {
+    addListener: function(listener) {
       this.listeners.push(listener);
     },
 
-    isSaveEnabled() {
+    isSaveEnabled: function() {
       console.log(this.getTab() + "," + this.isSwaggerEditable());
       if (this.getTab() != 'edit' || !this.isSwaggerEditable()) {
         return false;
@@ -80,12 +80,12 @@ apiConsole.factory('ConsoleService', ['$rootScope', function($rootScope){
       return true;
     },
 
-    triggerSave() {
+    triggerSave: function() {
       this.setSaveInProgress(true);
       this.triggerEvent('save-triggered');
     },
 
-    triggerEvent(eventName) {
+    triggerEvent: function(eventName) {
       for (var i = 0; i < this.listeners.length; i++) {
         var listener = this.listeners[i];
         listener.$emit(eventName);
@@ -205,7 +205,6 @@ apiConsole.controller('ApiConsoleCtrl',
       console.log("swagger url not set.  redirecting");
       return;
     }
-    console.log("refreshing console: "+ApiService.getSelectedSwaggerUrl())
 
     //get account info
     AccountService.getAccount().then(function(result) {
@@ -223,7 +222,6 @@ apiConsole.controller('ApiConsoleCtrl',
       //check if the file is editable
       //(only when the user is logged in, and the file is hosted on github)
       if ($scope.account.username && swaggerGithubData) {
-        console.log("user is logged in, and file is hosted on github")
         //configure github api with the authenticated user's access token
         githubApi = new Github({
            token: $scope.account.token,
@@ -234,7 +232,6 @@ apiConsole.controller('ApiConsoleCtrl',
          
         //check if user has write access to the github repo that hosts the swagger file
         ConsoleService.getGithubRepo().contributors(function(err, data) {
-        console.log("looking through contributors");
 
           for (var i = 0; i < data.length; i++) {
             var contributor = data[i];
@@ -311,8 +308,8 @@ apiConsole.controller('ApiConsoleCtrl',
       //set content in the swagger editor, and fire an event that 
       //the swagger editor listens to as a trigger to initialization
       $rootScope.editorValue = ConsoleService.getSwaggerContent();
-      $rootScope.$emit("$stateChangeStart");
-      //console.log("updated editor content: "+$rootScope.editorValue.substr(0,100)+"...");
+      //$rootScope.$emit("$stateChangeStart");
+      console.log("updated editor content: "+$rootScope.editorValue.substr(0,100)+"...");
     }]);
   }
 

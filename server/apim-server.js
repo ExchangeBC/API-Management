@@ -76,6 +76,17 @@ app.get('/logout', function(req, res){
     res.redirect('/');
 });
 
+// Mirror client side routes
+// ----------------------------------------------------------------------------
+
+app.get('/list', function(req, res){
+  res.redirect('/');
+});
+
+app.get('/console', function(req, res){
+  res.redirect('/');
+});
+
 // API to support the client
 // ----------------------------------------------------------------------------
 
