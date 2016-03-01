@@ -36,7 +36,13 @@
         "url": "https://raw.githubusercontent.com/BCDevExchange/API-Management/master/swagger-json/surrey-open311.json",
         "notes": "This API provides real-time access to query service requests submitted to the City of Surrey Engineering and Parks departments based on the Open311 standard.",
         "api_num": 5
-      }
+      },
+      {
+        "title": "Langley Cemeteries",
+        "url": "https://raw.githubusercontent.com/BCDevExchange/API-Management/master/swagger-json/langley-cemeteries.json",
+        "notes": "This API can be used to search for information about deceased persons and grave sites at cemeteries in Langley, B.C. The searchable records are from the 1880's to 2008.",
+        "api_num": 6
+      }      
     ]
   }
 }
