@@ -15,7 +15,7 @@
             "email": "TRANBMClientRelations@gov.bc.ca"
         }
     },
-    "host": "api.webcams.open511.gov.bc.ca",
+    "host": "tst.api.webcams.open511.gov.bc.ca",
     "basePath": "/v1",
     "tags": [
         {
