@@ -3,7 +3,7 @@
     "packages": [
       {
         "title": "BC Data Catalogue API",
-        "url": "https://api.gov.bc.ca/data/a2a2130b-e853-49e8-9b30-1d0c735aa3d9/resource/0b9e7d31-91ff-4146-a473-106a3b301964/download/bcdc.json",
+        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/bcdc/bcdc.json",
         "notes": "The live published metadata content of the BC Data Catalogue is accessible through an application programming interface (API)",
         "api_num": 0
       },
@@ -21,7 +21,7 @@
       },
       {
         "title": "Physical Address Geocoding Web Service",
-        "url": "https://api.gov.bc.ca/data/8f4a016f-14db-4def-8ef9-7c797de1cdd9/resource/1a46fd76-1316-4fab-9d99-a2286dcd2b7b/download/geocoder.json",
+        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/geocoder/geocoder.json",
         "notes": "The Physical Address Geocoder can be used to resolve physical locations and to standardize addresses in British Columbia.",
         "api_num": 3
       },
