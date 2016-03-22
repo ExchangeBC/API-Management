@@ -9,7 +9,7 @@
       },
       {
         "title": "Open511-DriveBC API",
-        "url": "https://api.gov.bc.ca/data/23a839e3-8fb4-4569-bb3d-c28a7621f687/resource/e60b09d8-8dea-40b1-a139-81632b3d4273/download/drivebc-open511.json",
+        "url": "https://catalogue.data.gov.bc.ca/dataset/23a839e3-8fb4-4569-bb3d-c28a7621f687/resource/e60b09d8-8dea-40b1-a139-81632b3d4273/download/drivebc-open511.json",
         "notes": "Provides real-time access to road event information for provincial highways, including road closures, planned work and extreme weather conditions delivered according to the Open511 standard.",
         "api_num": 1
       },
