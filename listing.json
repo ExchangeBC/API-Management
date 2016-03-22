@@ -15,7 +15,7 @@
       },
       {
         "title": "BC Laws API",
-        "url": "https://api.gov.bc.ca/data/6e815cf7-cb83-4655-9ad4-a926ae4e59f7/resource/3664d2d3-6dcb-4307-9652-a28332981ca3/download/bclaws.json",
+        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/bclaws/bclaws.json",
         "notes": "BC Laws contains a comprehensive collection of BC legislation and related materials available via the BC Laws API.",
         "api_num": 2
       },
