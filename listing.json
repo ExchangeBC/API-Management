@@ -40,7 +40,7 @@
       {
         "title": "Surrey-TrafficLoopCount",
         "url": "https://raw.githubusercontent.com/CityofSurrey/traffic-loops-api/master/surrey-trafficloop.json",
-        "notes": "	This API provides locations of City of Surrey traffic loops and the corresponding traffic loop counts in 15 minute intervals.",
+        "notes": "This API provides locations of City of Surrey traffic loops and the corresponding traffic loop counts in 15 minute intervals.",
         "api_num": 6
       }
     ]
