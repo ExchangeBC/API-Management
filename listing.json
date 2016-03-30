@@ -36,7 +36,7 @@
         "url": "https://raw.githubusercontent.com/BCDevExchange/API-Management/master/swagger-json/surrey-open311.json",
         "notes": "This API provides real-time access to query service requests submitted to the City of Surrey Engineering and Parks departments based on the Open311 standard.",
         "api_num": 5
-      }
+      },
       {
         "title": "Surrey-TrafficLoopCount",
         "url": "https://raw.githubusercontent.com/CityofSurrey/traffic-loops-api/master/surrey-trafficloop.json",
