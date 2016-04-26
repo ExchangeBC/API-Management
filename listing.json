@@ -3,25 +3,25 @@
     "packages": [
       {
         "title": "BC Data Catalogue API",
-        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/bcdc/bcdc.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/bcdc/bcdc.json",
         "notes": "The live published metadata content of the BC Data Catalogue is accessible through an application programming interface (API)",
         "api_num": 0
       },
       {
         "title": "Open511-DriveBC API",
-        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/open511/open511.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/open511/open511.json",
         "notes": "Provides real-time access to road event information for provincial highways, including road closures, planned work and extreme weather conditions delivered according to the Open511 standard.",
         "api_num": 1
       },
       {
         "title": "BC Laws API",
-        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/bclaws/bclaws.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/bclaws/bclaws.json",
         "notes": "BC Laws contains a comprehensive collection of BC legislation and related materials available via the BC Laws API.",
         "api_num": 2
       },
       {
         "title": "Physical Address Geocoding Web Service",
-        "url": "https://raw.githubusercontent.com/bcgov/DBC-APIM/master/api-specs/geocoder/geocoder.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/geocoder/geocoder.json",
         "notes": "The Physical Address Geocoder can be used to resolve physical locations and to standardize addresses in British Columbia.",
         "api_num": 3
       },
