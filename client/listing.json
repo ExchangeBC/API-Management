@@ -1,27 +1,28 @@
+
 {
   "result": {
     "packages": [
       {
         "title": "BC Data Catalogue API",
-        "url": "https://api.gov.bc.ca/data/a2a2130b-e853-49e8-9b30-1d0c735aa3d9/resource/0b9e7d31-91ff-4146-a473-106a3b301964/download/bcdc.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/bcdc/bcdc.json",
         "notes": "The live published metadata content of the BC Data Catalogue is accessible through an application programming interface (API)",
         "api_num": 0
       },
       {
         "title": "Open511-DriveBC API",
-        "url": "https://api.gov.bc.ca/data/23a839e3-8fb4-4569-bb3d-c28a7621f687/resource/e60b09d8-8dea-40b1-a139-81632b3d4273/download/drivebc-open511.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/open511/open511.json",
         "notes": "Provides real-time access to road event information for provincial highways, including road closures, planned work and extreme weather conditions delivered according to the Open511 standard.",
         "api_num": 1
       },
       {
         "title": "BC Laws API",
-        "url": "https://api.gov.bc.ca/data/6e815cf7-cb83-4655-9ad4-a926ae4e59f7/resource/3664d2d3-6dcb-4307-9652-a28332981ca3/download/bclaws.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/bclaws/bclaws.json",
         "notes": "BC Laws contains a comprehensive collection of BC legislation and related materials available via the BC Laws API.",
         "api_num": 2
       },
       {
         "title": "Physical Address Geocoding Web Service",
-        "url": "https://api.gov.bc.ca/data/8f4a016f-14db-4def-8ef9-7c797de1cdd9/resource/1a46fd76-1316-4fab-9d99-a2286dcd2b7b/download/geocoder.json",
+        "url": "https://raw.githubusercontent.com/bcgov/api-specs/master/geocoder/geocoder.json",
         "notes": "The Physical Address Geocoder can be used to resolve physical locations and to standardize addresses in British Columbia.",
         "api_num": 3
       },
@@ -38,11 +39,17 @@
         "api_num": 5
       },
       {
-        "title": "Langley Cemeteries",
-        "url": "https://raw.githubusercontent.com/BCDevExchange/API-Management/master/swagger-json/langley-cemeteries.json",
-        "notes": "This API can be used to search for information about deceased persons and grave sites at cemeteries in Langley, B.C. The searchable records are from the 1880's to 2008.",
+        "title": "Surrey-Open511",
+        "url": "https://raw.githubusercontent.com/cityofsurrey/open511/master/open511definition.json",
+        "notes": "Provides real-time access to active and future obstructions and detours happening throughout the City of Surrey according to the Open511 standard.",
         "api_num": 6
-      }      
+      },
+      {
+        "title": "Surrey-TrafficLoopCount",
+        "url": "https://raw.githubusercontent.com/CityofSurrey/traffic-loops-api/master/surrey-trafficloop.json",
+        "notes": "This API provides locations of City of Surrey traffic loops and the corresponding traffic loop counts in 15 minute intervals.",
+        "api_num": 7
+      }
     ]
   }
 }
