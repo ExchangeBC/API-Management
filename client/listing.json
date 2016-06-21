@@ -39,10 +39,16 @@
         "api_num": 5
       },
       {
+        "title": "Surrey-Open511",
+        "url": "https://raw.githubusercontent.com/cityofsurrey/open511/master/open511definition.json",
+        "notes": "Provides real-time access to active and future obstructions and detours happening throughout the City of Surrey according to the Open511 standard.",
+        "api_num": 6
+      },
+      {
         "title": "Surrey-TrafficLoopCount",
         "url": "https://raw.githubusercontent.com/CityofSurrey/traffic-loops-api/master/surrey-trafficloop.json",
         "notes": "This API provides locations of City of Surrey traffic loops and the corresponding traffic loop counts in 15 minute intervals.",
-        "api_num": 6
+        "api_num": 7
       }
     ]
   }
